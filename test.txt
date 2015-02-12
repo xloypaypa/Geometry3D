@@ -1,1 +1,12 @@
+<<<<<<< HEAD
 ¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò¸ò
+=======
+<<<<<<< HEAD
+nothing
+anything
+eveqweqing
+sdasdas
+=======
+dsahkdashdkjasdhaks ypaypa
+>>>>>>> origin/master
+>>>>>>> origin/master
