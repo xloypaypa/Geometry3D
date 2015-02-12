@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 nothing
 anything
 eveqweqing
 sdasdas
+=======
+dsahkdashdkjasdhaks ypaypa
+>>>>>>> origin/master
