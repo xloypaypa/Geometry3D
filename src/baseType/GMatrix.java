@@ -27,7 +27,7 @@ public class GMatrix {
 	 * @throws GMatrixSubscriptException 
 	 */
 	public GMatrix( int row, int column) throws GMatrixSubscriptException {
-		if( row < 0 || column < 0 ) {
+		if( row <= 0 || column <= 0 ) {
 			throw new GMatrixSubscriptException();
 		}
 		this.n = row;
@@ -198,7 +198,7 @@ public class GMatrix {
 			GMatrix reMat=new GMatrix( m , n );
 			for(int i = 0; i < n; i ++) {
 				for(int j = 0;j < m; j ++) {
-					reMat.mat[i * m + j]= reMat.mat[j * m + i];
+					reMat.mat[j * n + i]= mat[i * m + j];
 				}
 			}
 			return reMat;
