@@ -1,6 +1,6 @@
 package baseTypeTest;
 
-import mathException.GMatrixSubscriptException;
+import mathException.*;
 
 import org.junit.*;
 
@@ -339,6 +339,144 @@ public class MatrixTest {
 			
 			Assert.assertTrue(m1.transpose().equals(m2));
 		}catch(GMatrixSubscriptException e){
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void gaussEliminationTest1(){
+		GMatrix m1,m2;
+		try{
+			m1=new GMatrix(2, 3);
+			m2=new GMatrix(2, 3);
+			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
+			m1.set(1, 0, 4); m1.set(1, 1, 5); m1.set(1, 2, 6);
+			
+			m2.set(0, 0, 1); m2.set(0, 1, 0); m2.set(0, 2, -1);
+			m2.set(1, 0, 0); m2.set(1, 1, 1); m2.set(1, 2, 2);
+			
+			Assert.assertTrue(m1.gaussElimination().equals(m2));
+		}catch(GMatrixSubscriptException e){
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void gaussEliminationTest2(){
+		GMatrix m1,m2;
+		try{
+			m1=new GMatrix(2, 3);
+			m2=new GMatrix(2, 3);
+			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
+			m1.set(1, 0, 4); m1.set(1, 1, 5); m1.set(1, 2, 6);
+			m1=m1.transpose();
+			
+			m2.set(0, 0, 1); m2.set(0, 1, 0); m2.set(0, 2, 0);
+			m2.set(1, 0, 0); m2.set(1, 1, 1); m2.set(1, 2, 0);
+			m2=m2.transpose();
+			
+			Assert.assertTrue(m1.gaussElimination().equals(m2));
+		}catch(GMatrixSubscriptException e){
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void gaussEliminationTest3(){
+		GMatrix m1,m2;
+		try{
+			m1=new GMatrix(2, 3);
+			m2=new GMatrix(2, 3);
+			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
+			m1.set(1, 0, 1); m1.set(1, 1, 2); m1.set(1, 2, 3);
+			
+			m2.set(0, 0, 1); m2.set(0, 1, 2); m2.set(0, 2, 3);
+			m2.set(1, 0, 0); m2.set(1, 1, 0); m2.set(1, 2, 0);
+			
+			Assert.assertTrue(m1.gaussElimination().equals(m2));
+		}catch(GMatrixSubscriptException e){
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void matrixTest1(){
+		GMatrix m1;
+		try{
+			m1=new GMatrix(2, 3);
+			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
+			m1.set(1, 0, 4); m1.set(1, 1, 5); m1.set(1, 2, 6);
+			
+			float[] a={1,2,3,4,5,6};
+			
+			Assert.assertArrayEquals(a, m1.getMatrix(), (float) GEps.eps);
+		}catch(GMatrixSubscriptException e){
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void inverseTest1(){
+		GMatrix m1,I;
+		try{
+			m1=new GMatrix(3, 3);
+			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
+			m1.set(1, 0, 4); m1.set(1, 1, 5); m1.set(1, 2, 6);
+			m1.set(2, 0, 5); m1.set(2, 1, 5); m1.set(2, 2, 6);
+			
+			I=new GMatrix(3, 3);
+			for (int i=0;i<3;i++){
+				I.set(i, i, 1);
+			}
+			
+			Assert.assertTrue(m1.multiplication(m1.inverse()).equals(I));
+		}catch(GMatrixException e){
+			Assert.fail();
+		}
+		
+		try{
+			m1=new GMatrix(3, 3);
+			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
+			m1.set(1, 0, 4); m1.set(1, 1, 5); m1.set(1, 2, 6);
+			m1.set(2, 0, 9); m1.set(2, 1, 9); m1.set(2, 2, 10);
+			
+			I=new GMatrix(3, 3);
+			for (int i=0;i<3;i++){
+				I.set(i, i, 1);
+			}
+			
+			Assert.assertTrue(m1.multiplication(m1.inverse()).equals(I));
+		}catch(GMatrixException e){
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void inverseTest2(){
+		GMatrix m1;
+		
+		try{
+			m1=new GMatrix(3, 3);
+			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
+			m1.set(1, 0, 4); m1.set(1, 1, 5); m1.set(1, 2, 6);
+			m1.set(2, 0, 9); m1.set(2, 1, 9); m1.set(2, 2, 9);
+			
+			m1.inverse();
+			
+			Assert.fail();
+		}catch(GMatrixInverseException e){
+			Assert.assertEquals("matrix cannot inverse.", e.getMessage());
+		} catch (GMatrixSubscriptException e) {
+			Assert.fail();
+		}
+		
+		try{
+			m1=new GMatrix(2, 3);
+			m1.inverse();
+			Assert.fail();
+		}catch(GMatrixInverseException e){
+			Assert.assertEquals("matrix not be square matrix.", e.getMessage());
+		} catch (GMatrixSubscriptException e) {
 			Assert.fail();
 		}
 	}

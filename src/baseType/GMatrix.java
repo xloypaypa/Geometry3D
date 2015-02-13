@@ -1,5 +1,6 @@
 package baseType;
 
+import mathException.GMatrixInverseException;
 import mathException.GMatrixSubscriptException;
 
 /**
@@ -44,7 +45,12 @@ public class GMatrix {
 	public GMatrix( GMatrix mat ) {
 		this.n = mat.getRowNumber();
 		this.m = mat.getColumnNumber();
-		this.mat = mat.getMatrix();
+		this.mat = new float[n*m];
+		for (int i=0;i<n;i++){
+			for (int j=0;j<m;j++){
+				safeSet(i, j, mat.safeGet(i, j));
+			}
+		}
 	}
 	
 	
@@ -94,7 +100,7 @@ public class GMatrix {
 		if( row < 0 || row >= n || column < 0 ||column >= m ) {
 			throw new GMatrixSubscriptException();
 		}
-		return mat[row * m +column];
+		return safeGet(row, column);
 	}
 	
 	
@@ -114,7 +120,7 @@ public class GMatrix {
 		if( row < 0 || row >= n || column < 0 ||column >= m ) {
 			throw new GMatrixSubscriptException();
 		}
-		mat[row * m +column] = f;
+		safeSet(row, column, f);
 	}
 	
 	
@@ -134,9 +140,9 @@ public class GMatrix {
 			for(int j = 0 ; j < mat.getColumnNumber() ; j ++) {
 				float s = 0;
 				for(int k = 0; k < m ; k ++) {
-					s += get( i , k ) * mat.get( k , j );
+					s += safeGet( i , k ) * mat.safeGet( k , j );
 				}
-				reMat.set( i ,j ,s);
+				reMat.safeSet( i ,j ,s);
 			}
 		}
 			
@@ -158,7 +164,7 @@ public class GMatrix {
 		GMatrix reMat = new GMatrix( n , m );
 		for( int i = 0; i < n; i ++) {
 			for( int j = 0; j < m; j ++) {
-				reMat.set( i , j , mat.get( i , j ) + get( i , j ));
+				reMat.safeSet( i , j , mat.safeGet( i , j ) + safeGet( i , j ));
 			}
 		}
 			
@@ -180,7 +186,7 @@ public class GMatrix {
 		GMatrix reMat = new GMatrix( n , m );
 		for( int i = 0; i < n; i ++) {
 			for( int j = 0; j < m; j ++) {
-				reMat.set( i , j , get( i , j ) - mat.get( i , j ));
+				reMat.safeSet( i , j , safeGet( i , j ) - mat.safeGet( i , j ));
 			}
 		}
 		return reMat;
@@ -194,17 +200,15 @@ public class GMatrix {
 	 * @throws GMatrixSubscriptException 
 	 */
 	public GMatrix transpose () {
-		try{
-			GMatrix reMat=new GMatrix( m , n );
-			for(int i = 0; i < n; i ++) {
-				for(int j = 0;j < m; j ++) {
-					reMat.mat[j * n + i]= mat[i * m + j];
-				}
+		GMatrix reMat=new GMatrix(this);
+		int temp=reMat.n; reMat.n=reMat.m; reMat.m=temp;
+		
+		for(int i = 0; i < n; i ++) {
+			for(int j = 0;j < m; j ++) {
+				reMat.safeSet(j, i, safeGet(i, j));
 			}
-			return reMat;
-		}catch(GMatrixSubscriptException e){
-			return null;
 		}
+		return reMat;
 	}
 
 	
@@ -221,7 +225,7 @@ public class GMatrix {
 		}
 		for(int i = 0; i < n; i ++) {
 			for(int j = 0;j < m; j ++) {
-				if (this.mat[i*m+j]!=mat.mat[i*m+j]){
+				if (GEps.sign(safeGet(i, j)-mat.safeGet(i, j))!=0){
 					return false;
 				}
 			}
@@ -232,9 +236,36 @@ public class GMatrix {
 	 * get the inverse of this matrix
 	 * @return
 	 * the inverse of this matrix
+	 * @throws GMatrixInverseException 
  	 */
-	public GMatrix inverse() {
-		return null;
+	public GMatrix inverse() throws GMatrixInverseException {
+		if (n!=m){
+			throw new GMatrixInverseException("matrix not be square matrix.");
+		}
+		
+		GMatrix temp=new GMatrix(this);
+		temp.m*=2; temp.mat=new float[n*2*m];
+		for (int i=0;i<n;i++){
+			for (int j=0;j<m;j++){
+				temp.safeSet(i, j, this.safeGet(i, j));
+			}
+			temp.safeSet(i, m+i, 1);
+		}
+		temp=temp.gaussElimination();
+		
+		for (int i=0;i<n;i++){
+			if (GEps.sign(temp.safeGet(i, i)-1)!=0){
+				throw new GMatrixInverseException("matrix cannot inverse.");
+			}
+		}
+		
+		GMatrix ans=new GMatrix(this);
+		for (int i=0;i<n;i++){
+			for (int j=0;j<m;j++){
+				ans.safeSet(i, j, temp.safeGet(i, m+j));
+			}
+		}
+		return ans;
 	}
 	/**
 	 * get the result of gauss elimination of this matrix
@@ -242,6 +273,68 @@ public class GMatrix {
 	 * the gauss elimination of this matrix
  	 */
 	public GMatrix gaussElimination() {
-		return null;
+		GMatrix ans=new GMatrix(this);
+		for (int i=0;i<Math.min(n, m);i++){
+			float max = findPivotElement(ans, i);
+			if (GEps.sign(max)==0) continue;
+			
+			doElimination(ans, i);
+		}
+		
+		eliminationBack(ans);
+		return ans;
+	}
+
+
+	private void eliminationBack(GMatrix ans) {
+		for (int i=Math.min(n, m)-1;i>=0;i--){
+			if (GEps.sign(ans.safeGet(i, i))==0) continue;
+			for (int j=i-1;j>=0;j--){
+				float times=ans.safeGet(j, i)/ans.safeGet(i, i);
+				for (int k=i;k<m;k++){
+					ans.safeSet(j, k, ans.safeGet(j, k)-ans.safeGet(i, k)*times);
+				}
+			}
+		}
+	}
+
+
+	private void doElimination(GMatrix ans, int i) {
+		for (int j=i+1;j<m;j++){
+			ans.safeSet(i, j, ans.safeGet(i, j)/ans.safeGet(i, i));
+		}
+		ans.safeSet(i, i, 1);
+		
+		for (int j=i+1;j<n;j++){
+			float times=ans.safeGet(j, i);
+			for (int k=i;k<m;k++){
+				ans.safeSet(j, k, ans.safeGet(j, k)-ans.safeGet(i, k)*times);
+			}
+		}
+	}
+
+
+	private float findPivotElement(GMatrix ans, int i) {
+		float max=ans.safeGet(i, i);
+		int mainPos=i;
+		for (int j=i+1;j<n;j++){
+			max=Math.max(max, ans.safeGet(j, i));
+			mainPos=j;
+		}
+		if (mainPos!=i){
+			for (int j=i;j<m;j++){
+				float temp=ans.safeGet(i, j);
+				ans.safeSet(i, j, ans.safeGet(mainPos, j));
+				ans.safeSet(mainPos, j, temp);
+			}
+		}
+		return max;
+	}
+	
+	private float safeGet(int row, int column){
+		return mat[row * m +column];
+	}
+	private void safeSet(int row,int column, float value){
+		mat[row * m +column] = value;
 	}
 }
