@@ -31,6 +31,7 @@ public class GMatrix {
 		if( row < 0 || column < 0 )
 		{
 			throw new GMatrixSubscriptException();
+			return ;
 		}
 		this.n = row;
 		this.m = column;
@@ -101,11 +102,9 @@ public class GMatrix {
 		if( row < 0 || row >= n || column < 0 ||column >= m )
 		{
 			throw new GMatrixSubscriptException();
+			return null;
 		}
-		else
-		{
-			return mat[row * m +column];
-		}
+		return mat[row * m +column];
 	}
 	
 	
@@ -126,63 +125,139 @@ public class GMatrix {
 		if( row < 0 || row >= n || column < 0 ||column >= m )
 		{
 			throw new GMatrixSubscriptException();
+			return;
 		}
-		else 
-		{
-			mat[row * m +column] = f;
-		}
+		mat[row * m +column] = f;
 	}
 	
 	
 	/**
-	 * 
+	 * get the multiplication of this matrix and mat;
 	 * @param mat
-	 * @return
+	 * @return		
+	 * the multiplication;
 	 */
 	public GMatrix multiplication ( GMatrix mat )
 	{
-		return null;
+		if( mat.getRowNumber() != m || mat.getColumnNumber() != n )
+		{
+			throw new GMatrixSubscriptException();
+			return null;
+		}
+		GMatrix reMat = new GMatrix( n , mat.getColumnNumber() );
+		for( int  i = 0 ; i < n ; i ++)
+			for(int j = 0 ; j < mat.getColumnNumber() ; j ++)
+			{
+				float s = 0;
+				for(int k = 0; k < m ; k ++)
+				{
+					s += get( i , k ) * mat.get( k , j );
+				}
+				reMat.set( i ,j ,s);
+			}
+		return reMat;
 	}
 	
 	
 	/**
-	 * 
+	 * get the addition of this matrix and mat;
 	 * @param mat
 	 * @return
+	 * the addition
 	 */
 	public GMatrix addition ( GMatrix mat )
 	{
-		return null;
+		if( mat.getRowNumber() != n || mat.getColumnNumber() != m )
+		{
+			throw new GMatrixSubscriptException();
+			return null;
+		}
+		GMatrix reMat = new GMatrix( n , m );
+		for( int i = 0; i < n; i ++)
+			for( int j = 0; j < m; j ++)
+			{
+				reMat.set( i , j , mat.get( i , j ) + get( i , j ));
+			}
+		return reMat;
 	}
 	
 	
 	/**
-	 * 
+	 * get the subtraction of this matrix and mat;
 	 * @param mat
 	 * @return
+	 * the result of this matrix - mat;
 	 */
 	public GMatrix subtraction ( GMatrix mat )
 	{
-		return null;
+		if( mat.getRowNumber() != n || mat.getColumnNumber() != m )
+		{
+			throw new GMatrixSubscriptException();
+			return null;
+		}
+		GMatrix reMat = new GMatrix( n , m );
+		for( int i = 0; i < n; i ++)
+			for( int j = 0; j < m; j ++)
+			{
+				reMat.set( i , j , mat.get( i , j ) - get( i , j ));
+			}
+		return reMat;
 	}
 	
 	
 	/**
-	 * 
+	 * get the transpose of this matrix;
 	 * @return
+	 * the transpose
 	 */
 	public GMatrix transpose ( )
 	{
-		return null;
+		GMatrix reMat = new GMatrix( m , n );
+		for(int i = 0; i < n; i ++)
+			for(int j = 0;j < m; j ++)
+			{
+				reMat.set( i , j , get( j , i ));
+			}
+		return reMat;
 	}
 
 	
 	/**
-	 * 
+	 * get if this matrix equal to the mat;
+	 * @param mat
 	 * @return
+	 * if equal return true else return false;
 	 */
-	public boolean equals( )
+	public boolean equals( GMatrix mat )
 	{
-		return false;
+		if( mat.getRowNumber() != n || mat.getColumnNumber() != m )
+		{
+			return false;
+		}
+		for(int i = 0; i < n; i ++)
+			for(int j = 0;j < m; j ++)
+				if ( get( i , j ) ! = mat.get( i , j ))
+				{
+					return false;
+				}
+		return true;
+	}
+	/**
+	 * get the inverse of this matrix
+	 * @return
+	 * the inverse of this matrix
+ 	 */
+	public GMatrix inverse()
+	{
+		return null;
+	}
+	/**
+	 * get the result of gauss elimination of this matrix
+	 * @return
+	 * the gauss elimination of this matrix
+ 	 */
+	public GMatrix gaussElimination()
+	{
+		return null;
 	}
 }
