@@ -1,11 +1,8 @@
 package lineType;
 
-import baseType.GLineType;
-import baseType.GPoint;
-import baseType.GType;
-import baseType.GVector;
+import baseType.*;
 
-public class GStraight extends GLineType {
+public class GStraight extends GLineType3 {
 
 	@Override
 	public boolean equal(GType obj) {
@@ -20,7 +17,7 @@ public class GStraight extends GLineType {
 	}
 
 	@Override
-	public boolean inside(GPoint point) {
+	public boolean inside(GMatrix point) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -38,25 +35,25 @@ public class GStraight extends GLineType {
 	}
 
 	@Override
-	public GVector getVector() {
+	public GVector3 getVector() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GStraight buildParallelLine(GPoint point) {
+	public GStraight buildParallelLine(GPoint3 point) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GStraight buildVerticalLine(GPoint point) {
+	public GStraight buildVerticalLine(GPoint3 point) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GPoint getPedal(GPoint point) {
+	public GPoint3 getPedal(GPoint3 point) {
 		// TODO Auto-generated method stub
 		return null;
 	}

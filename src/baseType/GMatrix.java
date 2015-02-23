@@ -200,7 +200,7 @@ public class GMatrix {
 	 * @throws GMatrixSubscriptException 
 	 */
 	public GMatrix transpose () {
-		GMatrix reMat=new GMatrix(this);
+		GMatrix reMat = new GMatrix( this );
 		int temp=reMat.n; reMat.n=reMat.m; reMat.m=temp;
 		
 		for(int i = 0; i < n; i ++) {
@@ -239,7 +239,7 @@ public class GMatrix {
 	 * @throws GMatrixInverseException 
  	 */
 	public GMatrix inverse() throws GMatrixInverseException {
-		if (n!=m){
+		if ( n != m ){
 			throw new GMatrixInverseException("matrix not be square matrix.");
 		}
 		

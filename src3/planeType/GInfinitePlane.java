@@ -2,7 +2,7 @@ package planeType;
 
 import baseType.*;
 
-public class GInfinitePlane extends GPlaneType {
+public class GInfinitePlane extends GPlaneType3 {
 
 	@Override
 	public boolean equal(GType obj) {
@@ -17,7 +17,7 @@ public class GInfinitePlane extends GPlaneType {
 	}
 
 	@Override
-	public boolean inside(GPoint point) {
+	public boolean inside(GMatrix point) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -35,25 +35,25 @@ public class GInfinitePlane extends GPlaneType {
 	}
 
 	@Override
-	public GVector getVector() {
+	public GVector3 getVector() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GInfinitePlane buildParallelLine(GPoint point) {
+	public GInfinitePlane buildParallelLine(GPoint3 point) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GInfinitePlane buildVerticalLine(GPoint point) {
+	public GInfinitePlane buildVerticalLine(GPoint3 point) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public GPoint getPedal(GPoint point) {
+	public GPoint3 getPedal(GPoint3 point) {
 		// TODO Auto-generated method stub
 		return null;
 	}
