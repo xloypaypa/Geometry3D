@@ -156,7 +156,7 @@ public class GMatrix {
 	 * @throws GMatrixSubscriptException 
 	 */
 	public GMatrix multiplication ( float k ) throws GMatrixSubscriptException {
-		GMatrix reMat = new GMatrix( n , mat.getColumnNumber() );
+		GMatrix reMat = new GMatrix( n , m );
 		for( int  i = 0 ; i < n ; i ++) {
 			for(int j = 0 ; j < m ; j ++) {
 				reMat.safeSet( i ,j , safeGet( i , j ) * k );
