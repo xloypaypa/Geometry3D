@@ -126,7 +126,7 @@ public class GMatrix {
 	
 	/**
 	 * get the multiplication of this matrix and mat;
-	 * @param mat
+	 * @param mat is a GMatrix
 	 * @return		
 	 * the multiplication;
 	 * @throws GMatrixSubscriptException 
@@ -148,7 +148,22 @@ public class GMatrix {
 			
 		return reMat;
 	}
-	
+	/**
+	 * get the multiplication of this matrix and k;
+	 * @param k is a float
+	 * @return		
+	 * the multiplication;
+	 * @throws GMatrixSubscriptException 
+	 */
+	public GMatrix multiplication ( float k ) throws GMatrixSubscriptException {
+		GMatrix reMat = new GMatrix( n , mat.getColumnNumber() );
+		for( int  i = 0 ; i < n ; i ++) {
+			for(int j = 0 ; j < m ; j ++) {
+				reMat.safeSet( i ,j , safeGet( i , j ) * k );
+			}
+		}
+		return reMat;
+	}
 	
 	/**
 	 * get the addition of this matrix and mat;
