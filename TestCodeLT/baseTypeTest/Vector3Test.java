@@ -38,6 +38,10 @@ public class Vector3Test {
 			p.set(1, 1, 1);
 			m.set(0, 0, 1);  m.set(0, 1, 1); m.set(0, 2, 1);
 			Assert.assertTrue(m.equals(p.getMatrix()));
+			
+			p=new GVector3(new GPoint3(2, 3, 4), new GPoint3(3, 4, 5));
+			m.set(0, 0, 1);  m.set(0, 1, 1); m.set(0, 2, 1);
+			Assert.assertTrue(m.equals(p.getMatrix()));
 		} catch (GMatrixSubscriptException e) {
 			Assert.fail();
 		}
@@ -102,7 +106,6 @@ public class Vector3Test {
 		GVector3 v1=new GVector3(2,3,4);
 		GVector3 v2=new GVector3(3,2,1);
 		GVector3 v3=new GVector3(-5,10,-5);
-		System.out.println(v1.product(v2).getX());
 		Assert.assertTrue(GEps.sign(v1.product(v2).getX()-v3.getX())==0);
 		Assert.assertTrue(GEps.sign(v1.product(v2).getY()-v3.getY())==0);
 		Assert.assertTrue(GEps.sign(v1.product(v2).getZ()-v3.getZ())==0);
@@ -110,6 +113,12 @@ public class Vector3Test {
 		Assert.assertTrue(GEps.sign(v1.product(3,2,1).getX()-v3.getX())==0);
 		Assert.assertTrue(GEps.sign(v1.product(3,2,1).getY()-v3.getY())==0);
 		Assert.assertTrue(GEps.sign(v1.product(3,2,1).getZ()-v3.getZ())==0);
+	}
+	
+	@Test
+	public void lengthTest1(){
+		GVector3 v=new GVector3(1,2,3);
+		Assert.assertTrue(GEps.sign(v.length()-Math.sqrt(14))==0);
 	}
 	
 }

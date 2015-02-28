@@ -3,7 +3,7 @@ package baseType;
 import mathException.GMatrixSubscriptException;
 import mathException.GTypeTransformException;
 
-public class GVector3 implements GType {
+public class GVector3 {
 	protected GMatrix vector;
 	
 	/**
@@ -54,6 +54,14 @@ public class GVector3 implements GType {
 			vector.set( 0 , 0 , x );
 			vector.set( 0 , 1 , y );
 			vector.set( 0 , 2 , z );
+		} catch (GMatrixSubscriptException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public GVector3(GPoint3 from, GPoint3 to){
+		try {
+			vector=new GMatrix(to.getMatrix().subtraction(from.getMatrix()));
 		} catch (GMatrixSubscriptException e) {
 			e.printStackTrace();
 		}
@@ -148,6 +156,10 @@ public class GVector3 implements GType {
 		this.setZ( z );
 	}
 	
+	public float length(){
+		return (float) Math.sqrt(this.dot(this));
+	}
+	
 	public float dot(GVector3 v) {
 		return dot( v.getX() , v.getY() , v.getZ() );
 	}
@@ -167,34 +179,10 @@ public class GVector3 implements GType {
 		return new GVector3( nx , ny , nz );
 	}
 	
-	@Override
-	public boolean equal(GType obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public double distance(GType obj) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean inside(GMatrix point) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean cross(GType obj) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public GType[] crossResults(GType obj) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean equal(GVector3 obj) {
+		GVector3 p=(GVector3) obj;
+		if (p.getMatrix().equals(this.getMatrix())) return true;
+		else return false;
 	}
 	
 	private void checkMatrixSize(GMatrix mat) throws GTypeTransformException {

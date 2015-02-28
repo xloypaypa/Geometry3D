@@ -11,15 +11,9 @@ public class GInfinitePlane extends GPlaneType3 {
 	}
 
 	@Override
-	public double distance(GType obj) {
+	public float distance(GType obj) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public boolean inside(GMatrix point) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

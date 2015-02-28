@@ -199,32 +199,47 @@ public class GPoint3 implements GType {
 
 	@Override
 	public boolean equal(GType obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if (!obj.getClass().equals(this.getClass())) return false;
+		GPoint3 p=(GPoint3) obj;
+		if (p.getMatrix().equals(this.getMatrix())) return true;
+		else return false;
 	}
 
 	@Override
-	public double distance(GType obj) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean inside(GMatrix point) {
-		// TODO Auto-generated method stub
-		return false;
+	public float distance(GType obj) {
+		if (obj.getClass().equals(GPoint3.class)) return this.distance((GPoint3)obj);
+		return obj.distance(this);
 	}
 
 	@Override
 	public boolean cross(GType obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if (obj.getClass().equals(GPoint3.class)) return this.equal(obj);
+		return obj.cross(this);
 	}
 
 	@Override
 	public GType[] crossResults(GType obj) {
-		// TODO Auto-generated method stub
-		return null;
+		if (obj.getClass().equals(GPoint3.class)) return this.crossResults((GPoint3)obj);
+		return obj.crossResults(this);
+	}
+	
+	protected float distance(GPoint3 p){
+		try {
+			GPoint3 temp=this.sub(p);
+			return (float) Math.sqrt(temp.getMatrix().multiplication(temp.getMatrix().transpose()).get(0, 0));
+		} catch (GMatrixSubscriptException e) {
+			return 0;
+		}
+	}
+	
+	protected GType[] crossResults(GPoint3 p){
+		if (this.cross(p)){
+			GType[] ans=new GType[1];
+			ans[0]=new GPoint3(this);
+			return ans;
+		}else{
+			return null;
+		}
 	}
 	
 	private void checkMatrixSize(GMatrix mat) throws GTypeTransformException {

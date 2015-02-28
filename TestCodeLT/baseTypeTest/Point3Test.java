@@ -120,5 +120,30 @@ public class Point3Test {
 		Assert.assertTrue(GEps.sign(p1.sub(v).getY()-p3.getY())==0);
 		Assert.assertTrue(GEps.sign(p1.sub(v).getZ()-p3.getZ())==0);
 	}
+	
+	@Test
+	public void distanceTest1(){
+		GPoint3 p1,p2;
+		p1=new GPoint3(1,1,1); p2=new GPoint3(4,2,3);
+		Assert.assertTrue(GEps.sign(p1.distance(p2)-Math.sqrt(14))==0);
+	}
+	
+	@Test
+	public void crossTest1(){
+		GPoint3 p1,p2;
+		p1=new GPoint3(4,2,3); p2=new GPoint3(4,2,3);
+		Assert.assertTrue(p1.cross(p2));
+		p2=new GPoint3(1,2,3);
+		Assert.assertFalse(p1.cross(p2));
+	}
+	
+	@Test
+	public void crossResultsTest1(){
+		GPoint3 p1,p2;
+		p1=new GPoint3(4,2,3); p2=new GPoint3(4,2,3);
+		Assert.assertTrue(p1.crossResults(p2)[0].equal(p1));
+		p2=new GPoint3(1,2,3);
+		Assert.assertTrue(p1.crossResults(p2)==null);
+	}
 
 }
