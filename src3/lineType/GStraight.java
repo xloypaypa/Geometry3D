@@ -20,7 +20,7 @@ public class GStraight extends GLineType3 {
 	public GStraight(GPoint3 point, GVector3 vector) throws TypeBuildException {
 		if (GEps.sign(vector.length())==0) throw new TypeBuildException("not straight");
 		p1=new GPoint3(point);
-		p2=new GPoint3(point.add(vector));
+		p2=new GPoint3(point.move(vector));
 	}
 
 	@Override
@@ -40,8 +40,9 @@ public class GStraight extends GLineType3 {
 
 	@Override
 	public boolean cross(GType obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if (obj.getClass().equals(GPoint3.class)) return this.cross((GPoint3)obj);
+		if (obj.getClass().equals(GStraight.class)) return this.cross((GStraight)obj);
+		else return obj.cross(this);
 	}
 
 	@Override
@@ -52,8 +53,7 @@ public class GStraight extends GLineType3 {
 
 	@Override
 	public GVector3 getVector() {
-		// TODO Auto-generated method stub
-		return null;
+		return new GVector3(p1, p2);
 	}
 
 	@Override
@@ -81,9 +81,35 @@ public class GStraight extends GLineType3 {
 		return v1.product(v2).length()/(2*p1.distance(p2));
 	}
 	
+	protected boolean cross(GPoint3 p){
+		GVector3 v1,v2,v3;
+		v1=new GVector3(p1, p);
+		v2=this.getVector();
+		v3=v1.product(v2);
+		if (GEps.sign(v3.length())==0) return true;
+		return false;
+	}
+	
+	protected GType[] crossResults(GPoint3 p){
+		if (this.cross(p)){
+			GType[] ans=new GType[1];
+			ans[0]=new GPoint3(p);
+			return ans;
+		}else{
+			return null;
+		}
+	}
+	
 	protected float distance(GStraight s){
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	protected boolean cross(GStraight s){
+		if (this.equal(s)) return true;
+		if (this.isParallel(s)) return false;
+		
+		return true;
 	}
 	
 }

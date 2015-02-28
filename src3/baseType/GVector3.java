@@ -143,6 +143,14 @@ public class GVector3 {
 		this.vector = new GMatrix( mat );
 	}
 	
+	public GVector3 reverse(){
+		try {
+			return new GVector3(vector.multiplication(-1));
+		} catch (GTypeTransformException e) {
+			return null;
+		}
+	}
+	
 	/**
 	 * set this GVector3 by the coordinate(x,y,z)
 	 * @param x
@@ -177,6 +185,14 @@ public class GVector3 {
 		float ny = getZ() * x - getX() * z;
 		float nz = getX() * y - getY() * x; 
 		return new GVector3( nx , ny , nz );
+	}
+	
+	public GVector3 mul(float value){
+		try {
+			return new GVector3(vector.multiplication(value));
+		} catch (GTypeTransformException e) {
+			return null;
+		}
 	}
 	
 	public boolean equal(GVector3 obj) {

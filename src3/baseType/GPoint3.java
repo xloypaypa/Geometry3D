@@ -147,13 +147,13 @@ public class GPoint3 implements GType {
 	}
 	
 	/**
-	 * get the addition of this point and a vector;
+	 * get the move of this point and a vector;
 	 * means move this point as the vector
 	 * @param v
 	 * @return the result of the addition
 	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3 add( GVector3 v ) {
+	public GPoint3 move( GVector3 v ) {
 		try {
 			return new GPoint3( point.addition( v.getMatrix() ) );
 		} catch (GMatrixSubscriptException | GTypeTransformException e) {
@@ -168,20 +168,6 @@ public class GPoint3 implements GType {
 			return null;
 		}
 	}
-	
-	/**
-	 * get the subtraction of this point and a vector
-	 * @param v
-	 * @return the result of the subtraction
-	 * @throws GMatrixSubscriptException
-	 */
-	public GPoint3 sub( GVector3 v ) {
-		try {
-			return new GPoint3( point.subtraction( v.getMatrix() ) );
-		} catch (GMatrixSubscriptException | GTypeTransformException e) {
-			return null;
-		}
-	}
 
 	/**
 	 * get the subtraction of this point and another point
@@ -189,9 +175,9 @@ public class GPoint3 implements GType {
 	 * @return the result of the subtraction
 	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3 sub( GPoint3 p ) {
+	public GVector3 sub( GPoint3 p ) {
 		try {
-			return new GPoint3( point.subtraction( p.getMatrix() ) );
+			return new GVector3( point.subtraction( p.getMatrix() ) );
 		} catch (GMatrixSubscriptException | GTypeTransformException e) {
 			return null;
 		}
@@ -225,9 +211,9 @@ public class GPoint3 implements GType {
 	
 	protected float distance(GPoint3 p){
 		try {
-			GPoint3 temp=this.sub(p);
+			GPoint3 temp=new GPoint3(this.sub(p).getMatrix());
 			return (float) Math.sqrt(temp.getMatrix().multiplication(temp.getMatrix().transpose()).get(0, 0));
-		} catch (GMatrixSubscriptException e) {
+		} catch (GMatrixSubscriptException | GTypeTransformException e) {
 			return 0;
 		}
 	}

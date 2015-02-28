@@ -100,13 +100,13 @@ public class Point3Test {
 		
 		p1=new GPoint3(1,1,1); GVector3 v=new GVector3(1, 2, 3);
 		p3=new GPoint3(2, 3, 4);
-		Assert.assertTrue(GEps.sign(p1.add(v).getX()-p3.getX())==0);
-		Assert.assertTrue(GEps.sign(p1.add(v).getY()-p3.getY())==0);
-		Assert.assertTrue(GEps.sign(p1.add(v).getZ()-p3.getZ())==0);
+		Assert.assertTrue(GEps.sign(p1.move(v).getX()-p3.getX())==0);
+		Assert.assertTrue(GEps.sign(p1.move(v).getY()-p3.getY())==0);
+		Assert.assertTrue(GEps.sign(p1.move(v).getZ()-p3.getZ())==0);
 	}
 	
 	@Test
-	public void subTest1(){
+	public void moveTest1(){
 		GPoint3 p1,p2,p3;
 		p1=new GPoint3(1,1,1); p2=new GPoint3(1,2,3);
 		p3=new GPoint3(0, -1, -2);
@@ -116,9 +116,9 @@ public class Point3Test {
 		
 		p1=new GPoint3(1,1,1); GVector3 v=new GVector3(1, 2, 3);
 		p3=new GPoint3(0, -1, -2);
-		Assert.assertTrue(GEps.sign(p1.sub(v).getX()-p3.getX())==0);
-		Assert.assertTrue(GEps.sign(p1.sub(v).getY()-p3.getY())==0);
-		Assert.assertTrue(GEps.sign(p1.sub(v).getZ()-p3.getZ())==0);
+		Assert.assertTrue(GEps.sign(p1.move(v.reverse()).getX()-p3.getX())==0);
+		Assert.assertTrue(GEps.sign(p1.move(v.reverse()).getY()-p3.getY())==0);
+		Assert.assertTrue(GEps.sign(p1.move(v.reverse()).getZ()-p3.getZ())==0);
 	}
 	
 	@Test
