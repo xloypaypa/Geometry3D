@@ -1,6 +1,8 @@
 package baseType;
 
+import mathException.GMatrixException;
 import mathException.GMatrixSubscriptException;
+import mathException.GTypeTransformException;
 
 public class GPoint3 implements GType {
 
@@ -8,19 +10,21 @@ public class GPoint3 implements GType {
 
 	/**
 	 * Construction method
-	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3() throws GMatrixSubscriptException{
-		point = new GMatrix( 1 , 3 );
+	public GPoint3(){
+		try {
+			point = new GMatrix( 1 , 3 );
+		} catch (GMatrixSubscriptException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Construction method;
 	 * Create GPoint3 by another GPoint3
 	 * @param p 
-	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3( GPoint3 p ) throws GMatrixSubscriptException{
+	public GPoint3( GPoint3 p ){
 		point = new GMatrix( p.point );
 	}
 	
@@ -30,7 +34,8 @@ public class GPoint3 implements GType {
 	 * @param mat ,A GMatrix
 	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3( GMatrix mat ) throws GMatrixSubscriptException{
+	public GPoint3( GMatrix mat ) throws GTypeTransformException{
+		checkMatrixSize(mat);
 		point = new GMatrix( mat );
 	}
 	
@@ -42,43 +47,71 @@ public class GPoint3 implements GType {
 	 * @param z
 	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3( float x , float y , float z) throws GMatrixSubscriptException{
-		point = new GMatrix( 1 , 3 );
-		this.setX( x );
-		this.setY( y );
-		this.setZ( z );
+	public GPoint3( float x , float y , float z) {
+		try {
+			point = new GMatrix( 1 , 3 );
+			this.setX( x );
+			this.setY( y );
+			this.setZ( z );
+		} catch (GMatrixException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Get the GMatrix of the GPoint3
 	 * @return the GMatrix
 	 */
-	public GMatrix get(){
+	public GMatrix getMatrix(){
 		return point;
 	}
 	
-	public float getX() throws GMatrixSubscriptException{
-		return point.get( 0 , 0 );
+	public float getX() {
+		try {
+			return point.get( 0 , 0 );
+		} catch (GMatrixSubscriptException e) {
+			return 0;
+		}
 	}
 	
-	public float getY() throws GMatrixSubscriptException{
-		return point.get( 0 , 1 );
+	public float getY() {
+		try {
+			return point.get( 0 , 1 );
+		} catch (GMatrixSubscriptException e) {
+			return 0;
+		}
 	}
 	
-	public float getZ() throws GMatrixSubscriptException{
-		return point.get( 0 , 2 );
+	public float getZ() {
+		try {
+			return point.get( 0 , 2 );
+		} catch (GMatrixSubscriptException e) {
+			return 0;
+		}
 	}
 	
-	public void setX( float x ) throws GMatrixSubscriptException{
-		point.set( 0 , 0 , x );
+	public void setX( float x ) {
+		try {
+			point.set( 0 , 0 , x );
+		} catch (GMatrixSubscriptException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setY( float y ) throws GMatrixSubscriptException{
-		point.set( 0 , 1 , y );
+	public void setY( float y ) {
+		try {
+			point.set( 0 , 1 , y );
+		} catch (GMatrixSubscriptException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void setZ( float z ) throws GMatrixSubscriptException{
-		point.set( 0 , 2 , z );
+	public void setZ( float z ) {
+		try {
+			point.set( 0 , 2 , z );
+		} catch (GMatrixSubscriptException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -86,8 +119,8 @@ public class GPoint3 implements GType {
 	 * @param p
 	 * @throws GMatrixSubscriptException
 	 */
-	public void set( GPoint3 p) throws GMatrixSubscriptException{
-		this.point = new GMatrix(p.point);
+	public void set( GPoint3 p) {
+		this.point=new GMatrix(p.point);
 	}
 	
 	/**
@@ -95,7 +128,8 @@ public class GPoint3 implements GType {
 	 * @param mat
 	 * @throws GMatrixSubscriptException
 	 */
-	public void set( GMatrix mat ) throws GMatrixSubscriptException{
+	public void set( GMatrix mat ) throws GTypeTransformException{
+		checkMatrixSize(mat);
 		this.point = new GMatrix( mat );
 	}
 	
@@ -106,7 +140,7 @@ public class GPoint3 implements GType {
 	 * @param z
 	 * @throws GMatrixSubscriptException
 	 */
-	public void set( float x , float y , float z) throws GMatrixSubscriptException{
+	public void set( float x , float y , float z) {
 		this.setX( x );
 		this.setY( y );
 		this.setZ( z );
@@ -119,8 +153,20 @@ public class GPoint3 implements GType {
 	 * @return the result of the addition
 	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3 add( GVector3 v ) throws GMatrixSubscriptException{
-		return new GPoint3( point.addition( v.get() ) );
+	public GPoint3 add( GVector3 v ) {
+		try {
+			return new GPoint3( point.addition( v.getMatrix() ) );
+		} catch (GMatrixSubscriptException | GTypeTransformException e) {
+			return null;
+		}
+	}
+	
+	public GPoint3 add(GPoint3 p){
+		try {
+			return new GPoint3(point.addition(p.point));
+		} catch (GMatrixSubscriptException | GTypeTransformException e) {
+			return null;
+		}
 	}
 	
 	/**
@@ -129,8 +175,12 @@ public class GPoint3 implements GType {
 	 * @return the result of the subtraction
 	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3 sub( GVector3 v ) throws GMatrixSubscriptException{
-		return new GPoint3( point.subtraction( v.get() ) );
+	public GPoint3 sub( GVector3 v ) {
+		try {
+			return new GPoint3( point.subtraction( v.getMatrix() ) );
+		} catch (GMatrixSubscriptException | GTypeTransformException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -139,8 +189,12 @@ public class GPoint3 implements GType {
 	 * @return the result of the subtraction
 	 * @throws GMatrixSubscriptException
 	 */
-	public GVector3 sub( GPoint3 p ) throws GMatrixSubscriptException{
-		return new GVector3( point.subtraction( p.get() ) );
+	public GPoint3 sub( GPoint3 p ) {
+		try {
+			return new GPoint3( point.subtraction( p.getMatrix() ) );
+		} catch (GMatrixSubscriptException | GTypeTransformException e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -171,6 +225,10 @@ public class GPoint3 implements GType {
 	public GType[] crossResults(GType obj) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private void checkMatrixSize(GMatrix mat) throws GTypeTransformException {
+		if (mat.getRowNumber()!=1||mat.getColumnNumber()!=3) throw new GTypeTransformException("matrix size error");
 	}
 
 }

@@ -188,6 +188,25 @@ public class MatrixTest {
 	}
 	
 	@Test
+	public void multiplicationTest4() {
+		GMatrix m1,m3;
+		try{
+			m1=new GMatrix(2, 3);
+			m3=new GMatrix(2, 3);
+			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
+			m1.set(1, 0, 4); m1.set(1, 1, 5); m1.set(1, 2, 6);
+			
+			m3.set(0, 0, 5); m3.set(0, 1, 10); m3.set(0, 2, 15);
+			m3.set(1, 0, 20); m3.set(1, 1, 25); m3.set(1, 2, 30);
+			
+			Assert.assertTrue(m1.multiplication(5).equals(m3));
+			Assert.assertEquals(20, m3.get(1, 0), GEps.eps);
+		}catch(GMatrixSubscriptException e){
+			Assert.fail();
+		}
+	}
+	
+	@Test
 	public void equalTest1(){
 		GMatrix m1,m2;
 		try{

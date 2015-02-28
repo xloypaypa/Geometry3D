@@ -155,14 +155,18 @@ public class GMatrix {
 	 * the multiplication;
 	 * @throws GMatrixSubscriptException 
 	 */
-	public GMatrix multiplication ( float k ) throws GMatrixSubscriptException {
-		GMatrix reMat = new GMatrix( n , m );
-		for( int  i = 0 ; i < n ; i ++) {
-			for(int j = 0 ; j < m ; j ++) {
-				reMat.safeSet( i ,j , safeGet( i , j ) * k );
+	public GMatrix multiplication ( float k ) {
+		try {
+			GMatrix reMat = new GMatrix( n , m );
+			for( int  i = 0 ; i < n ; i ++) {
+				for(int j = 0 ; j < m ; j ++) {
+					reMat.safeSet( i ,j , safeGet( i , j ) * k );
+				}
 			}
+			return reMat;
+		} catch (GMatrixSubscriptException e) {
+			return null;
 		}
-		return reMat;
 	}
 	
 	/**
