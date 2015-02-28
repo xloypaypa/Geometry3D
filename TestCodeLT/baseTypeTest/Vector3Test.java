@@ -121,4 +121,14 @@ public class Vector3Test {
 		Assert.assertTrue(GEps.sign(v.length()-Math.sqrt(14))==0);
 	}
 	
+	@Test
+	public void directionTest1(){
+		GVector3 v1=new GVector3(1,2,3);
+		GVector3 v2=new GVector3(2,4,6);
+		Assert.assertTrue(v1.isSameDirection(v2));
+		Assert.assertTrue(v1.isReverse(v2.reverse()));
+		v2=new GVector3(1,1,1);
+		Assert.assertFalse(v1.isReverse(v2));
+	}
+	
 }

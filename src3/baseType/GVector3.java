@@ -151,6 +151,24 @@ public class GVector3 {
 		}
 	}
 	
+	public boolean isReverse(GVector3 v){
+		if (GEps.sign(this.length())==0||GEps.sign(v.length())==0) return true;
+		else if (GEps.sign(this.product(v).length())!=0) return false;
+		else if (GEps.sign(this.getX()*v.getX())==-1) return true;
+		else if (GEps.sign(this.getY()*v.getY())==-1) return true;
+		else if (GEps.sign(this.getZ()*v.getZ())==-1) return true;
+		return false;
+	}
+	
+	public boolean isSameDirection(GVector3 v){
+		if (GEps.sign(this.length())==0||GEps.sign(v.length())==0) return true;
+		else if (GEps.sign(this.product(v).length())!=0) return false;
+		else if (GEps.sign(this.getX()*v.getX())==1) return true;
+		else if (GEps.sign(this.getY()*v.getY())==1) return true;
+		else if (GEps.sign(this.getZ()*v.getZ())==1) return true;
+		return false;
+	}
+	
 	/**
 	 * set this GVector3 by the coordinate(x,y,z)
 	 * @param x
@@ -193,6 +211,11 @@ public class GVector3 {
 		} catch (GTypeTransformException e) {
 			return null;
 		}
+	}
+	
+	public GVector3 changeLength(float length){
+		float now=this.length();
+		return this.mul(length/now);
 	}
 	
 	public boolean equal(GVector3 obj) {

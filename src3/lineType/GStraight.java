@@ -22,6 +22,11 @@ public class GStraight extends GLineType3 {
 		p1=new GPoint3(point);
 		p2=new GPoint3(point.move(vector));
 	}
+	
+	public GStraight(GStraight s){
+		this.p1=new GPoint3(s.p1);
+		this.p2=new GPoint3(s.p2);
+	}
 
 	@Override
 	public boolean equal(GType obj) {
@@ -47,31 +52,9 @@ public class GStraight extends GLineType3 {
 
 	@Override
 	public GType[] crossResults(GType obj) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GVector3 getVector() {
-		return new GVector3(p1, p2);
-	}
-
-	@Override
-	public GStraight buildParallelLine(GPoint3 point) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GStraight buildVerticalLine(GPoint3 point) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public GPoint3 getPedal(GPoint3 point) {
-		// TODO Auto-generated method stub
-		return null;
+		if (obj.getClass().equals(GPoint3.class)) return this.crossResults((GPoint3)obj);
+		if (obj.getClass().equals(GStraight.class)) return this.crossResults((GStraight)obj);
+		else return obj.crossResults(this);
 	}
 	
 	protected float distance(GPoint3 p){
@@ -109,7 +92,38 @@ public class GStraight extends GLineType3 {
 		if (this.equal(s)) return true;
 		if (this.isParallel(s)) return false;
 		
-		return true;
+		GVector3 v11,v12,v21,v22,a1,a2;
+		v11=new GVector3(p1, s.p1);
+		v12=new GVector3(p1, s.p2);
+		v21=new GVector3(p2, s.p1);
+		v22=new GVector3(p2, s.p2);
+		a1=v11.product(v12); a2=v21.product(v22);
+		return GEps.sign(a1.product(a2).length())==0;
+	}
+	
+	protected GType[] crossResults(GStraight s){
+		if (this.equal(s)){
+			GType[] ans=new GType[1];
+			ans[0]=new GStraight(s);
+			return ans;
+		}else if (!this.cross(s)) {
+			return null;
+		}else{
+			float dis=p1.distance(s);
+			GType[] ans=new GType[1];
+			ans[0]=p1.move(this.getVector().changeLength(dis));
+			if (ans[0].cross(s)&&ans[0].cross(this)){
+				return ans;
+			}else{
+				ans[0]=p1.move(this.getVector().reverse().changeLength(dis));
+				return ans;
+			}
+		}
+	}
+
+	@Override
+	public GVector3 getVector() {
+		return new GVector3(p1, p2);
 	}
 	
 }
