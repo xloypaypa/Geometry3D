@@ -17,6 +17,10 @@ public class GMatrix {
 	protected int m;			//column
 	
 	
+	public GMatrix()  {
+		mat = new float[0];
+		n = m = 0;
+	}
 	/**
 	 * Create a Matrix by the row and Column;
 	 * @param row
@@ -210,7 +214,28 @@ public class GMatrix {
 		}
 		return reMat;
 	}
-	
+	/**
+	 * get the subtraction of this matrix and a float;
+	 * @param f the float
+	 * @return
+	 * the result of this matrix - f;
+	 * @throws GMatrixSubscriptException 
+	 */
+	public GMatrix subtraction ( float f )  {
+		GMatrix reMat = new GMatrix();
+		try {
+			reMat = new GMatrix( n , m );
+		} catch (GMatrixSubscriptException e) {
+			e.printStackTrace();
+			return null;
+		}
+		for( int i = 0; i < n; i ++) {
+			for( int j = 0; j < m; j ++) {
+				reMat.safeSet( i , j , safeGet( i , j ) - f);
+			}
+		}
+		return reMat;
+	}
 	
 	/**
 	 * get the transpose of this matrix;

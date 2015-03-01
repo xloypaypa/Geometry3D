@@ -213,9 +213,47 @@ public class GVector3 {
 		}
 	}
 	
+	public GVector3 sub(float value){
+			try {
+				return new GVector3(vector.subtraction(value));
+			} catch (GTypeTransformException e) {
+				e.printStackTrace();
+				return null;
+			}
+	}
+	
 	public GVector3 changeLength(float length){
+		if( this.isEmpty() ) return new GVector3(this);
 		float now=this.length();
 		return this.mul(length/now);
+	}
+	
+	public boolean isEmpty()
+	{
+		if( this.getX() == 0f && this.getY() == 0f && this.getZ() == 0f) return true;
+		return false;
+	}
+	
+	public float getAngle(GVector3 v)
+    {
+     if(this.isEmpty()) return 0f;
+     if(v.isEmpty()) return 0f;
+     return (float)Math.acos(this.dot(v)/(v.length()*this.length()));
+    }
+	
+	/**
+	 * project this vector on another vector
+	 * @param v ,it is the "another vector";
+	 * @return the projection
+	 */
+	public float getProjection(GVector3 v)
+	{
+		if( v.isEmpty() ) return 0f;
+		return Math.abs(v.normalize().dot(this));
+	}
+	
+	public GVector3 normalize(){
+		return changeLength( 1.0f );
 	}
 	
 	public boolean equal(GVector3 obj) {

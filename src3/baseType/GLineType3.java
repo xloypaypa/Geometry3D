@@ -4,11 +4,11 @@ import lineType.*;
 
 public abstract class GLineType3 implements GType {
 	public abstract GVector3 getVector();
-	public GStraight buildParallelLine(GPoint3 point){
+	public GStraight3 buildParallelLine(GPoint3 point){
 		return null;
 	}
 	
-	public GStraight buildVerticalLine(GPoint3 point){
+	public GStraight3 buildVerticalLine(GPoint3 point){
 		return null;
 	}
 	
