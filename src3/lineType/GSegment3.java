@@ -1,13 +1,14 @@
 package lineType;
 
 import mathException.TypeBuildException;
-import baseTool.LTEps;
 import baseType.GEps;
+import baseType.GLineType3;
 import baseType.GPoint3;
 import baseType.GType;
 import baseType.GVector3;
+import lineType.GStraight3;
 
-public class GSegment3 implements GType {
+public class GSegment3 extends GLineType3 {
 	
 	GPoint3 p1,p2;
 	
@@ -28,8 +29,17 @@ public class GSegment3 implements GType {
 		p2=new GPoint3(point.move(vector));
 	}
 	
+	public GSegment3(GSegment3 s){
+		p1=new GPoint3(s.p1);
+		p2=new GPoint3(s.p2);
+	}
+	
 	public float length(){
 		return p1.distance(p2);
+	}
+	
+	public GPoint3 getMidpoint(){
+		return new GPoint3((p1.getX()+p2.getX())/2, (p1.getY()+p2.getY())/2, (p1.getZ()+p2.getZ())/2);
 	}
 
 	@Override
@@ -43,20 +53,26 @@ public class GSegment3 implements GType {
 
 	@Override
 	public float distance(GType obj) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (obj.getClass().equals(GPoint3.class)) return this.distance((GPoint3)obj);
+		if (obj.getClass().equals(GStraight3.class)) return this.distance((GStraight3)obj);
+		if (obj.getClass().equals(GSegment3.class)) return this.distance((GSegment3)obj);
+		else return obj.distance(this);
 	}
 
 	@Override
 	public boolean cross(GType obj) {
-		// TODO Auto-generated method stub
-		return false;
+		if (obj.getClass().equals(GPoint3.class)) return this.cross((GPoint3)obj);
+		if (obj.getClass().equals(GStraight3.class)) return this.cross((GStraight3)obj);
+		if (obj.getClass().equals(GSegment3.class)) return this.cross((GSegment3)obj);
+		else return obj.cross(this);
 	}
 
 	@Override
 	public GType[] crossResults(GType obj) {
-		// TODO Auto-generated method stub
-		return null;
+		if (obj.getClass().equals(GPoint3.class)) return this.crossResults((GPoint3)obj);
+		if (obj.getClass().equals(GStraight3.class)) return this.crossResults((GStraight3)obj);
+		if (obj.getClass().equals(GSegment3.class)) return this.crossResults((GSegment3)obj);
+		else return obj.crossResults(this);
 	}
 	
 	protected float distance(GPoint3 p){
@@ -64,9 +80,9 @@ public class GSegment3 implements GType {
 		d1=p.distance(this);
 		d2=p.distance(this);
 		d3=this.length();
-		GStraight s=null;
+		GStraight3 s=null;
 		try {
-			s=new GStraight(p1, p2);
+			s=new GStraight3(p1, p2);
 		} catch (TypeBuildException e) {
 			e.printStackTrace();
 		}
@@ -98,13 +114,17 @@ public class GSegment3 implements GType {
 	}
 	
 	protected float distance(GSegment3 s){
-		
+		return 0;
 	}
 	
 	protected boolean cross(GSegment3 s){
-		GStraight s1,s2;
-		s1=new GStraight(p1, p2);
-		s2=new GStraight(s.p1, s.p2);
+		GStraight3 s1=null,s2=null;
+		try {
+			s1=new GStraight3(p1, p2);
+			s2=new GStraight3(s.p1, s.p2);
+		} catch (TypeBuildException e) {
+			e.printStackTrace();
+		}
 		GType[] ans=s1.crossResults(s2);
 		if (ans==null) return false;
 		if (ans[0].getClass().equals(GPoint3.class)){
@@ -117,9 +137,13 @@ public class GSegment3 implements GType {
 	}
 	
 	protected GType[] crossResults(GSegment3 s){
-		GStraight s1,s2;
-		s1=new GStraight(p1, p2);
-		s2=new GStraight(s.p1, s.p2);
+		GStraight3 s1=null,s2=null;
+		try {
+			s1=new GStraight3(p1, p2);
+			s2=new GStraight3(s.p1, s.p2);
+		} catch (TypeBuildException e) {
+			e.printStackTrace();
+		}
 		GType[] ans=s1.crossResults(s2);
 		if (ans==null) return ans;
 		else if (ans[0].getClass().equals(GPoint3.class)){
@@ -136,12 +160,59 @@ public class GSegment3 implements GType {
 			else return null;
 			
 			GType[] ret=new GType[1];
-			ret[0]=new GSegment3(ans1, ans2);
+			try {
+				ret[0]=new GSegment3(new GPoint3(ans1),new GPoint3(ans2));
+			} catch (TypeBuildException e) {
+				ret[0]=new GPoint3(ans1);
+			}
 			return ret;
 		}
 	}
 	
-	protected float distance(GStraight s){
-		
+	protected float distance(GStraight3 s){
+		return 0;
 	}
+	
+	protected boolean cross(GStraight3 s){
+		GStraight3 s2=null;
+		try {
+			s2=new GStraight3(p1, p2);
+		} catch (TypeBuildException e) {
+			e.printStackTrace();
+		}
+		GType[] ret=s.crossResults(s2);
+		if (ret==null) return false;
+		else if (ret[0].getClass().equals(GPoint3.class)){
+			if (ret[0].cross(this)) return true;
+			else return false;
+		}else{
+			return true;
+		}
+	}
+	
+	protected GType[] crossResults(GStraight3 s){
+		GStraight3 s2=null;
+		try {
+			s2=new GStraight3(p1, p2);
+		} catch (TypeBuildException e) {
+			e.printStackTrace();
+		}
+		GType[] ret=s.crossResults(s2);
+		if (ret==null) return null;
+		else if (ret[0].getClass().equals(GPoint3.class)){
+			if (ret[0].cross(this)) return ret;
+			else return null;
+		}else{
+			GType[] ans=new GType[1];
+			ans[0]=new GSegment3(this);
+			return ans;
+		}
+	}
+
+	@Override
+	public GVector3 getVector() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
