@@ -193,6 +193,28 @@ public class GMatrix {
 			
 		return reMat;
 	}
+	/**
+	 * get the addition of this matrix and a float;
+	 * @param f the float
+	 * @return
+	 * the result of this matrix + f;
+	 * @throws GMatrixSubscriptException 
+	 */
+	public GMatrix addition ( float f )  {
+		GMatrix reMat = new GMatrix();
+		try {
+			reMat = new GMatrix( n , m );
+		} catch (GMatrixSubscriptException e) {
+			e.printStackTrace();
+			return null;
+		}
+		for( int i = 0; i < n; i ++) {
+			for( int j = 0; j < m; j ++) {
+				reMat.safeSet( i , j , safeGet( i , j ) + f);
+			}
+		}
+		return reMat;
+	}
 	
 	
 	/**

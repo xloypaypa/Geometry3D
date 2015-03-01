@@ -222,6 +222,15 @@ public class GVector3 {
 			}
 	}
 	
+	public GVector3 add(float value){
+		try {
+			return new GVector3(vector.addition(value));
+		} catch (GTypeTransformException e) {
+			e.printStackTrace();
+			return null;
+		}
+}
+	
 	public GVector3 changeLength(float length){
 		if( this.isEmpty() ) return new GVector3(this);
 		float now=this.length();

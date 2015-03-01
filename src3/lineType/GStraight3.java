@@ -4,11 +4,15 @@ import mathException.TypeBuildException;
 import baseType.*;
 
 public class GStraight3 extends GLineType3 {
-	GPoint3 p1, p2;
 	
 	public GStraight3(){
 		p1=new GPoint3(0, 0, 0);
 		p2=new GPoint3(0, 0, 1);
+	}
+	
+	public GStraight3( GSegment3 s ){
+		this.p1 = s.p1;
+		this.p2 = s.p2;
 	}
 	
 	public GStraight3(GPoint3 point1, GPoint3 point2) throws TypeBuildException {
@@ -86,8 +90,8 @@ public class GStraight3 extends GLineType3 {
 	protected float distance(GStraight3 s){
 		if (this.cross(s)) return 0f;
 		if (this.isParallel(s)) return s.distance(p1);
-		GVector3 v1 = p1.sub( p2 );
-		GVector3 v2 = s.p1.sub( s.p2 );
+		GVector3 v1 = this.getVector();
+		GVector3 v2 = s.getVector();
 		GVector3 v3 = p1.sub( s.p1 );
 		GVector3 xv = v1.product( v2 );
 		return v3.getProjection(xv);
@@ -126,6 +130,8 @@ public class GStraight3 extends GLineType3 {
 		}
 	}
 
+	
+	
 	@Override
 	public GVector3 getVector() {
 		return new GVector3(p1, p2);
