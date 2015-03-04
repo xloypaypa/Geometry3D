@@ -184,7 +184,7 @@ public class GPoint3 implements GType {
 	}
 
 	@Override
-	public boolean equal(GType obj) {
+	public boolean equals(GType obj) {
 		if (!obj.getClass().equals(this.getClass())) return false;
 		GPoint3 p=(GPoint3) obj;
 		if (p.getMatrix().equals(this.getMatrix())) return true;
@@ -199,7 +199,7 @@ public class GPoint3 implements GType {
 
 	@Override
 	public boolean cross(GType obj) {
-		if (obj.getClass().equals(GPoint3.class)) return this.equal(obj);
+		if (obj.getClass().equals(GPoint3.class)) return this.equals(obj);
 		return obj.cross(this);
 	}
 

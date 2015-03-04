@@ -31,10 +31,10 @@ public class GRay3 extends GLineType3{
 	}
 	
 	@Override
-	public boolean equal(GType obj) {
+	public boolean equals(GType obj) {
 		if (!obj.getClass().equals(this.getClass())) return false;
 		GRay3 ray=(GRay3) obj;
-		if (!ray.p1.equal(p1)) return false;
+		if (!ray.p1.equals(p1)) return false;
 		if (ray.getVector().isSameDirection(this.getVector())) return true;
 		else return false;
 	}

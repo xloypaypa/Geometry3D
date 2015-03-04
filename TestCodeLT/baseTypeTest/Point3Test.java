@@ -141,7 +141,7 @@ public class Point3Test {
 	public void crossResultsTest1(){
 		GPoint3 p1,p2;
 		p1=new GPoint3(4,2,3); p2=new GPoint3(4,2,3);
-		Assert.assertTrue(p1.crossResults(p2)[0].equal(p1));
+		Assert.assertTrue(p1.crossResults(p2)[0].equals(p1));
 		p2=new GPoint3(1,2,3);
 		Assert.assertTrue(p1.crossResults(p2)==null);
 	}

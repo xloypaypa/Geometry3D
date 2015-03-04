@@ -16,7 +16,7 @@ public class GStraight3 extends GLineType3 {
 	}
 	
 	public GStraight3(GPoint3 point1, GPoint3 point2) throws TypeBuildException {
-		if (point1.equal(point2)) throw new TypeBuildException("not straight");
+		if (point1.equals(point2)) throw new TypeBuildException("not straight");
 		p1=new GPoint3(point1);
 		p2=new GPoint3(point2);
 	}
@@ -33,7 +33,7 @@ public class GStraight3 extends GLineType3 {
 	}
 
 	@Override
-	public boolean equal(GType obj) {
+	public boolean equals(GType obj) {
 		if (!obj.getClass().equals(this.getClass())) return false;
 		GStraight3 s=(GStraight3) obj;
 		if (s.cross(p1)&&s.cross(p2)) return true;
@@ -98,7 +98,7 @@ public class GStraight3 extends GLineType3 {
 	}
 	
 	protected boolean cross(GStraight3 s){
-		if (this.equal(s)) return true;
+		if (this.equals(s)) return true;
 		if (this.isParallel(s)) return false;
 		
 		GVector3 v11,v12,v21,v22,a1,a2;
@@ -111,7 +111,7 @@ public class GStraight3 extends GLineType3 {
 	}
 	
 	protected GType[] crossResults(GStraight3 s){
-		if (this.equal(s)){
+		if (this.equals(s)){
 			GType[] ans=new GType[1];
 			ans[0]=new GStraight3(s);
 			return ans;
@@ -124,7 +124,9 @@ public class GStraight3 extends GLineType3 {
 			if (ans[0].cross(s)&&ans[0].cross(this)){
 				return ans;
 			}else{
-				ans[0]=p1.move(this.getVector().reverse().changeLength(dis));
+				GVector3 v=this.getVector().reverse();
+				v.changeLength(dis);
+				ans[0]=p1.move(v);
 				return ans;
 			}
 		}

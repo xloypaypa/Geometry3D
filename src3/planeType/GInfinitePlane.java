@@ -5,7 +5,7 @@ import baseType.*;
 public class GInfinitePlane extends GPlaneType3 {
 
 	@Override
-	public boolean equal(GType obj) {
+	public boolean equals(GType obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}

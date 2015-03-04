@@ -16,7 +16,7 @@ public class GSegment3 extends GLineType3 {
 	}
 	
 	public GSegment3(GPoint3 point1, GPoint3 point2) throws TypeBuildException{
-		if (point1.equal(point2)) throw new TypeBuildException("not segment");
+		if (point1.equals(point2)) throw new TypeBuildException("not segment");
 		p1=new GPoint3(point1);
 		p2=new GPoint3(point2);
 	}
@@ -41,11 +41,11 @@ public class GSegment3 extends GLineType3 {
 	}
 
 	@Override
-	public boolean equal(GType obj) {
+	public boolean equals(GType obj) {
 		if (!obj.getClass().equals(this.getClass())) return false;
 		GSegment3 s=(GSegment3) obj;
-		if (p1.equal(s.p1)&&p2.equal(s.p2)) return true;
-		if (p1.equal(s.p2)&&p2.equal(s.p1)) return true;
+		if (p1.equals(s.p1)&&p2.equals(s.p2)) return true;
+		if (p1.equals(s.p2)&&p2.equals(s.p1)) return true;
 		return false;
 	}
 

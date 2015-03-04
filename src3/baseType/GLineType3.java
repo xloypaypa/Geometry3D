@@ -32,7 +32,7 @@ public abstract class GLineType3 implements GType {
 			return null;
 		}
 		
-		if (s1.equal( s2 )){
+		if (s1.equals( s2 )){
 			return null;
 		}
 		

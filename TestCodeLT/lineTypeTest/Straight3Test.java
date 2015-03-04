@@ -51,14 +51,14 @@ public class Straight3Test {
 			GType[] ans=s1.crossResults(s2);
 			Assert.assertTrue(ans!=null);
 			Assert.assertTrue(ans[0].getClass().equals(GPoint3.class));
-			Assert.assertTrue(ans[0].equal(new GPoint3(0, 0, 0)));
+			Assert.assertTrue(ans[0].equals(new GPoint3(0, 0, 0)));
 			
 			s1=new GStraight3(new GPoint3(0, 0, 0), new GPoint3(0, 0, 1));
 			s2=new GStraight3(new GPoint3(0, 0, 0), new GPoint3(0, 0, 1));
 			ans=s1.crossResults(s2);
 			Assert.assertTrue(ans!=null);
 			Assert.assertTrue(ans[0].getClass().equals(GStraight3.class));
-			Assert.assertTrue(ans[0].equal(s1));
+			Assert.assertTrue(ans[0].equals(s1));
 			
 			s1=new GStraight3(new GPoint3(0, 0, 0), new GPoint3(0, 0, 1));
 			s2=new GStraight3(new GPoint3(0, 1, 0), new GPoint3(0, 1, 1));
@@ -72,7 +72,7 @@ public class Straight3Test {
 			Assert.assertTrue(ans[0].getClass().equals(GPoint3.class));
 			GPoint3 p=(GPoint3) ans[0];
 			System.out.println(p.getX()+" "+p.getY()+" "+p.getZ());
-			Assert.assertTrue(ans[0].equal(new GPoint3(0, 0, 0)));
+			Assert.assertTrue(ans[0].equals(new GPoint3(0, 0, 0)));
 		} catch (TypeBuildException e) {
 			Assert.fail();
 		}
