@@ -144,6 +144,18 @@ public class Straight3Test {
 	}
 	
 	@Test
+	public void distanceTest1(){
+		GStraight3 s1,s2;
+		try {
+			s1=new GStraight3(new GPoint3(0, 0, 0), new GPoint3(0, 0, 1));
+			s2=new GStraight3(new GPoint3(0, 1, 0), new GPoint3(0, 1, 1));
+			Assert.assertEquals(1, s1.distance(s2), GEps.eps);
+		} catch (TypeBuildException e) {
+			Assert.fail();
+		}
+	}
+	
+	@Test
 	public void distanceTest2(){
 		GStraight3 s1,s2;
 		GPoint3 p,p2;
@@ -156,7 +168,7 @@ public class Straight3Test {
 				z=0;
 				while (z==0) z=random.nextInt()%100;
 				v1=new GVector3(random.nextInt()%100, random.nextInt()%100, z); v11=v1.reverse();
-				s1=new GStraight3(p.move(v1), p);
+				s1=new GStraight3(p.move(v1), p.move(v11));
 				
 				x=0;
 				while (x==0) x=random.nextInt()%100;
@@ -178,29 +190,8 @@ public class Straight3Test {
 				}
 				
 				v3=new GVector3(x, y, z); v31=v3.reverse();
-				s2=new GStraight3(p2.move(v3),p2);
+				s2=new GStraight3(p2.move(v3),p2.move(v31));
 				
-				if (GEps.sign(v2.length() - s1.distance(s2))!=0){
-//					System.out.println(s1.getPointOne().getX()+" "+s1.getPointOne().getY()+" "+s1.getPointOne().getZ()+" ");
-//					System.out.println(s1.getPointTwo().getX()+" "+s1.getPointTwo().getY()+" "+s1.getPointTwo().getZ()+" ");
-//					System.out.println(s2.getPointOne().getX()+" "+s2.getPointOne().getY()+" "+s2.getPointOne().getZ()+" ");
-//					System.out.println(s2.getPointTwo().getX()+" "+s2.getPointTwo().getY()+" "+s2.getPointTwo().getZ()+" ");
-					if (s1.getVector().isSameDirection(s2.getVector())||s1.getVector().isReverse(s2.getVector())){
-						System.out.println("ans0: "+p.distance(p2));
-						System.out.println("ans1: "+p.distance(s2));
-						System.out.println("ans2: "+p2.distance(s1));
-						System.out.println("cross1: "+p.cross(s1));
-						System.out.println("cross2: "+p2.cross(s2));
-						System.out.println(v2.getX()+" "+v2.getY()+" "+v2.getZ());
-						System.out.println(v3.getX()+" "+v3.getY()+" "+v3.getZ());
-						System.out.println(v2.dot(v3));
-						GVector3 v4=new GVector3(p, p2);
-						System.out.println(v1.dot(v4));
-						System.out.println(v3.dot(v4));
-						System.out.println(v4.equal(v2));
-					}
-					System.out.println(v2.length()+" but: "+s1.distance(s2));
-				}
 				Assert.assertEquals(v2.length(), s1.distance(s2), GEps.eps);
 			}
 		} catch (TypeBuildException e) {

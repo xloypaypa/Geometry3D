@@ -65,7 +65,7 @@ public class GStraight3 extends GLineType3 {
 		GVector3 v1,v2;
 		v1=new GVector3(p, p1);
 		v2=new GVector3(p, p2);
-		return v1.product(v2).length()/(2*p1.distance(p2));
+		return v1.product(v2).length()/p1.distance(p2);
 	}
 	
 	protected boolean cross(GPoint3 p){
