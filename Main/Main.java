@@ -12,7 +12,7 @@ public class Main {
 		try{
 			GStraight3 s1,s2;
 			s1 = new GStraight3(new GPoint3(3,4,5),new GPoint3(5,4,3));
-			s2 = new GStraight3(new GPoint3(10.23f,3.3f,9.4f),new GPoint3(9,10,11));
+			s2 = new GStraight3(new GPoint3(10.23,3.3,9.4),new GPoint3(9,10,11));
 			if(s1.cross(s2)) System.out.printf("Yes");else System.out.printf("No");
 			System.out.println(s1.distance(s2));
 			GSegment3 s = s1.commonVerticalSegment(s2);
