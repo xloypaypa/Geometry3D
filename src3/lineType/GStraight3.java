@@ -126,7 +126,7 @@ public class GStraight3 extends GLineType3 {
 				t=solve(v1.getX(),v1.getY(),v2.getX(),v2.getY(), s.p1.getX(), s.p1.getY(), p1.getX(), p1.getY());
 			}else if (GEps.sign(v1.getY()*v2.getZ()-v1.getZ()*v2.getY())!=0){
 				t=solve(v1.getY(),v1.getZ(),v2.getY(),v2.getZ(), s.p1.getY(), s.p1.getZ(), p1.getY(), p1.getZ());
-			}else if (GEps.sign(v1.getZ()*v2.getX()-v1.getX()*v2.getZ())!=0){
+			}else{
 				t=solve(v1.getZ(),v1.getX(),v2.getZ(),v2.getX(), s.p1.getZ(), s.p1.getX(), p1.getZ(), p1.getX());
 			}
 			
