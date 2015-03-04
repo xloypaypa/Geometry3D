@@ -8,6 +8,18 @@ public abstract class GLineType3 implements GType {
 	public GVector3 getVector(){
 		return p2.sub( p1 );
 	}
+	public GPoint3 getPointOne(){
+		return p1;
+	}
+	public GPoint3 getPointTwo(){
+		return p2;
+	}
+//	public void setPointOne(GPoint3 p){
+//		p1 = p;
+//	}
+//	public void setPointTwo(GPoint3 p){
+//		p2 = p;
+//	}
 	public GStraight3 commonVerticalStraight( GLineType3 s ){
 		
 		GStraight3 s1 = new GStraight3();
@@ -39,9 +51,7 @@ public abstract class GLineType3 implements GType {
 			}
 		}
  		
- 		GVector3 v3 = s1.p1.sub(s2.p1);
- 		
-		if (this.isParallel(s)) {
+		if (s1.isParallel(s2)) {
 			GVector3 xv2 = v1.product( v1 );
 			try {
 				return new GStraight3(p1,xv2);
@@ -64,13 +74,13 @@ public abstract class GLineType3 implements GType {
 				return null;
 			}
 		}
-		GVector3 v4 = s1.p2.sub( point3 );
+		GVector3 v4 = s1.p1.sub( point3 );
 		GVector3 _xv = v1.product(v4);
 		if(! _xv.isReverse(xv)&& ! _xv.isSameDirection(xv) )
 		{
 			xv = xv.reverse();
 			point3 = point2.move(xv);
-			v4 = s1.p2.sub( point3 );
+			v4 = s1.p1.sub( point3 );
 		}
 		float theta = v4.getAngle(v1);
 		float dis2 = point3.distance(point1);

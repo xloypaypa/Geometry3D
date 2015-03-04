@@ -104,7 +104,7 @@ public class GRay3 extends GLineType3{
 		GStraight3 s1=null,s2=null;
 		try {
 			s1=new GStraight3(p1, p1);
-			s2=new GStraight3(s.p1, s.p2);
+			s2=new GStraight3(s.getPointOne(), s.getPointTwo());
 		} catch (TypeBuildException e) {
 			e.printStackTrace();
 		}
@@ -115,8 +115,8 @@ public class GRay3 extends GLineType3{
 			if (ans[0].cross(this)&&ans[0].cross(s)) return true;
 			else return false;
 		}else{
-			if (s.p1.cross(this)) return true;
-			else if (s.p2.cross(this)) return true;
+			if (s.getPointOne().cross(this)) return true;
+			else if (s.getPointTwo().cross(this)) return true;
 			else return false;
 		}
 	}
@@ -125,7 +125,7 @@ public class GRay3 extends GLineType3{
 		GStraight3 s1=null,s2=null;
 		try {
 			s1=new GStraight3(p1, p1);
-			s2=new GStraight3(s.p1, s.p2);
+			s2=new GStraight3(s.getPointOne(), s.getPointTwo());
 		} catch (TypeBuildException e) {
 			e.printStackTrace();
 		}
@@ -137,8 +137,8 @@ public class GRay3 extends GLineType3{
 			else return null;
 		}else{
 			boolean f1,f2;
-			f1=s.p1.cross(this);
-			f2=s.p2.cross(this);
+			f1=s.getPointOne().cross(this);
+			f2=s.getPointTwo().cross(this);
 			
 			if (!f1&&!f2) return null;
 			
@@ -146,13 +146,13 @@ public class GRay3 extends GLineType3{
 				ans[0]=new GSegment3(s);
 			}else if (f1&&!f2){
 				try {
-					ans[0]=new GSegment3(p1,s.p1);
+					ans[0]=new GSegment3(p1,s.getPointOne());
 				} catch (TypeBuildException e) {
 					ans[0]=new GPoint3(p1);
 				}
 			}else if (!f1&&f2){
 				try {
-					ans[0]=new GSegment3(p1,s.p2);
+					ans[0]=new GSegment3(p1,s.getPointTwo());
 				} catch (TypeBuildException e) {
 					ans[0]=new GPoint3(p1);
 				}

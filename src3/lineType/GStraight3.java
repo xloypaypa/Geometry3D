@@ -11,8 +11,8 @@ public class GStraight3 extends GLineType3 {
 	}
 	
 	public GStraight3( GSegment3 s ){
-		this.p1 = s.p1;
-		this.p2 = s.p2;
+		p1 = s.getPointOne();
+		p2 = s.getPointTwo();
 	}
 	
 	public GStraight3(GPoint3 point1, GPoint3 point2) throws TypeBuildException {
