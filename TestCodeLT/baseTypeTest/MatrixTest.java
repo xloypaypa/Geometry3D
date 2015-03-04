@@ -426,9 +426,9 @@ public class MatrixTest {
 			m1.set(0, 0, 1); m1.set(0, 1, 2); m1.set(0, 2, 3);
 			m1.set(1, 0, 4); m1.set(1, 1, 5); m1.set(1, 2, 6);
 			
-			float[] a={1,2,3,4,5,6};
+			double[] a={1,2,3,4,5,6};
 			
-			Assert.assertArrayEquals(a, m1.getMatrix(), (float) GEps.eps);
+			Assert.assertArrayEquals(a, m1.getMatrix(), GEps.eps);
 		}catch(GMatrixSubscriptException e){
 			Assert.fail();
 		}

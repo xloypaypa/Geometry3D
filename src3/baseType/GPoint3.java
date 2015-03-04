@@ -47,7 +47,7 @@ public class GPoint3 implements GType {
 	 * @param z
 	 * @throws GMatrixSubscriptException
 	 */
-	public GPoint3( float x , float y , float z) {
+	public GPoint3( double x , double y , double z) {
 		try {
 			point = new GMatrix( 1 , 3 );
 			this.setX( x );
@@ -66,7 +66,7 @@ public class GPoint3 implements GType {
 		return point;
 	}
 	
-	public float getX() {
+	public double getX() {
 		try {
 			return point.get( 0 , 0 );
 		} catch (GMatrixSubscriptException e) {
@@ -74,7 +74,7 @@ public class GPoint3 implements GType {
 		}
 	}
 	
-	public float getY() {
+	public double getY() {
 		try {
 			return point.get( 0 , 1 );
 		} catch (GMatrixSubscriptException e) {
@@ -82,7 +82,7 @@ public class GPoint3 implements GType {
 		}
 	}
 	
-	public float getZ() {
+	public double getZ() {
 		try {
 			return point.get( 0 , 2 );
 		} catch (GMatrixSubscriptException e) {
@@ -90,7 +90,7 @@ public class GPoint3 implements GType {
 		}
 	}
 	
-	public void setX( float x ) {
+	public void setX( double x ) {
 		try {
 			point.set( 0 , 0 , x );
 		} catch (GMatrixSubscriptException e) {
@@ -98,7 +98,7 @@ public class GPoint3 implements GType {
 		}
 	}
 	
-	public void setY( float y ) {
+	public void setY( double y ) {
 		try {
 			point.set( 0 , 1 , y );
 		} catch (GMatrixSubscriptException e) {
@@ -106,7 +106,7 @@ public class GPoint3 implements GType {
 		}
 	}
 	
-	public void setZ( float z ) {
+	public void setZ( double z ) {
 		try {
 			point.set( 0 , 2 , z );
 		} catch (GMatrixSubscriptException e) {
@@ -140,7 +140,7 @@ public class GPoint3 implements GType {
 	 * @param z
 	 * @throws GMatrixSubscriptException
 	 */
-	public void set( float x , float y , float z) {
+	public void set( double x , double y , double z) {
 		this.setX( x );
 		this.setY( y );
 		this.setZ( z );
@@ -192,7 +192,7 @@ public class GPoint3 implements GType {
 	}
 
 	@Override
-	public float distance(GType obj) {
+	public double distance(GType obj) {
 		if (obj.getClass().equals(GPoint3.class)) return this.distance((GPoint3)obj);
 		return obj.distance(this);
 	}
@@ -209,10 +209,10 @@ public class GPoint3 implements GType {
 		return obj.crossResults(this);
 	}
 	
-	protected float distance(GPoint3 p){
+	protected double distance(GPoint3 p){
 		try {
 			GPoint3 temp=new GPoint3(this.sub(p).getMatrix());
-			return (float) Math.sqrt(temp.getMatrix().multiplication(temp.getMatrix().transpose()).get(0, 0));
+			return (double) Math.sqrt(temp.getMatrix().multiplication(temp.getMatrix().transpose()).get(0, 0));
 		} catch (GMatrixSubscriptException | GTypeTransformException e) {
 			return 0;
 		}

@@ -40,7 +40,7 @@ public class GRay3 extends GLineType3{
 	}
 
 	@Override
-	public float distance(GType obj) {
+	public double distance(GType obj) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -63,7 +63,7 @@ public class GRay3 extends GLineType3{
 		return null;
 	}
 	
-	protected float distance(GPoint3 p){
+	protected double distance(GPoint3 p){
 		GVector3 v1,v2;
 		v1=this.getVector();
 		v2=new GVector3(p1, p);
@@ -95,7 +95,7 @@ public class GRay3 extends GLineType3{
 		}
 	}
 	
-	protected float distance(GSegment3 s){
+	protected double distance(GSegment3 s){
 		// TODO
 		return 0;
 	}
@@ -162,7 +162,7 @@ public class GRay3 extends GLineType3{
 		}
 	}
 	
-	protected float distance(GStraight3 s){
+	protected double distance(GStraight3 s){
 		// TODO
 		return 0;
 	}
@@ -204,7 +204,7 @@ public class GRay3 extends GLineType3{
 		}
 	}
 	
-	protected float distance(GRay3 r){
+	protected double distance(GRay3 r){
 		// TODO
 		return 0;
 	}

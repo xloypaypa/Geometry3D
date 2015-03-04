@@ -61,7 +61,7 @@ public abstract class GLineType3 implements GType {
 			}
 		}
 		
-		float dis = s1.distance(s2);
+		double dis = s1.distance(s2);
 		GPoint3 point1 = s1.p1;
 		GPoint3 point2 = s2.p1;
 		xv = xv.changeLength(dis);
@@ -82,9 +82,9 @@ public abstract class GLineType3 implements GType {
 			point3 = point2.move(xv);
 			v4 = s1.p1.sub( point3 );
 		}
-		float theta = v4.getAngle(v1);
-		float dis2 = point3.distance(point1);
-		float dis3 = dis2 * (float)Math.tan(theta);
+		double theta = v4.getAngle(v1);
+		double dis2 = point3.distance(point1);
+		double dis3 = dis2 * (double)Math.tan(theta);
 		v2 = v2.changeLength(dis3);
 		GPoint3 point4 = point3.move(v2);
 		if(!point3.cross(s1)){

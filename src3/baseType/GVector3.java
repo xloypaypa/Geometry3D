@@ -48,7 +48,7 @@ public class GVector3 {
 	 * @param z
 	 * @throws GMatrixSubscriptException
 	 */
-	public GVector3 ( float x , float y , float z ) {
+	public GVector3 ( double x , double y , double z ) {
 		try {
 			vector = new GMatrix( 1 , 3 );
 			vector.set( 0 , 0 , x );
@@ -75,7 +75,7 @@ public class GVector3 {
 		return vector;
 	}
 	
-	public float getX() {
+	public double getX() {
 		try {
 			return vector.get( 0 , 0 );
 		} catch (GMatrixSubscriptException e) {
@@ -83,7 +83,7 @@ public class GVector3 {
 		}
 	}
 	
-	public float getY() {
+	public double getY() {
 		try {
 			return vector.get( 0 , 1 );
 		} catch (GMatrixSubscriptException e) {
@@ -91,7 +91,7 @@ public class GVector3 {
 		}
 	}
 	
-	public float getZ() {
+	public double getZ() {
 		try {
 			return vector.get( 0 , 2 );
 		} catch (GMatrixSubscriptException e) {
@@ -99,7 +99,7 @@ public class GVector3 {
 		}
 	}
 	
-	public void setX( float x ) {
+	public void setX( double x ) {
 		try {
 			vector.set( 0 , 0 , x );
 		} catch (GMatrixSubscriptException e) {
@@ -107,7 +107,7 @@ public class GVector3 {
 		}
 	}
 	
-	public void setY( float y ) {
+	public void setY( double y ) {
 		try {
 			vector.set( 0 , 1 , y );
 		} catch (GMatrixSubscriptException e) {
@@ -115,7 +115,7 @@ public class GVector3 {
 		}
 	}
 	
-	public void setZ( float z ) {
+	public void setZ( double z ) {
 		try {
 			vector.set( 0 , 2 , z );
 		} catch (GMatrixSubscriptException e) {
@@ -176,21 +176,21 @@ public class GVector3 {
 	 * @param z
 	 * @throws GMatrixSubscriptException
 	 */
-	public void set( float x , float y , float z) {
+	public void set( double x , double y , double z) {
 		this.setX( x );
 		this.setY( y );
 		this.setZ( z );
 	}
 	
-	public float length(){
-		return (float) Math.sqrt(this.dot(this));
+	public double length(){
+		return (double) Math.sqrt(this.dot(this));
 	}
 	
-	public float dot(GVector3 v) {
+	public double dot(GVector3 v) {
 		return dot( v.getX() , v.getY() , v.getZ() );
 	}
 	
-	public float dot(float x , float y , float z) {
+	public double dot(double x , double y , double z) {
 		return x * getX() + y * getY() + z * getZ();
 	}
 	
@@ -198,14 +198,14 @@ public class GVector3 {
 		return product( v.getX() , v.getY() , v.getZ() );
 	}
 	
-	public GVector3 product(float x , float y , float z) {
-		float nx = getY() * z - getZ() * y;
-		float ny = getZ() * x - getX() * z;
-		float nz = getX() * y - getY() * x; 
+	public GVector3 product(double x , double y , double z) {
+		double nx = getY() * z - getZ() * y;
+		double ny = getZ() * x - getX() * z;
+		double nz = getX() * y - getY() * x; 
 		return new GVector3( nx , ny , nz );
 	}
 	
-	public GVector3 mul(float value){
+	public GVector3 mul(double value){
 		try {
 			return new GVector3(vector.multiplication(value));
 		} catch (GTypeTransformException e) {
@@ -213,7 +213,7 @@ public class GVector3 {
 		}
 	}
 	
-	public GVector3 sub(float value){
+	public GVector3 sub(double value){
 			try {
 				return new GVector3(vector.subtraction(value));
 			} catch (GTypeTransformException e) {
@@ -222,7 +222,7 @@ public class GVector3 {
 			}
 	}
 	
-	public GVector3 add(float value){
+	public GVector3 add(double value){
 		try {
 			return new GVector3(vector.addition(value));
 		} catch (GTypeTransformException e) {
@@ -231,9 +231,9 @@ public class GVector3 {
 		}
 }
 	
-	public GVector3 changeLength(float length){
+	public GVector3 changeLength(double length){
 		if( this.isEmpty() ) return new GVector3(this);
-		float now=this.length();
+		double now=this.length();
 		return this.mul(length/now);
 	}
 	
@@ -243,11 +243,11 @@ public class GVector3 {
 		return false;
 	}
 	
-	public float getAngle(GVector3 v)
+	public double getAngle(GVector3 v)
     {
      if(this.isEmpty()) return 0f;
      if(v.isEmpty()) return 0f;
-     return (float)Math.acos(this.dot(v)/(v.length()*this.length()));
+     return (double)Math.acos(this.dot(v)/(v.length()*this.length()));
     }
 	
 	/**
@@ -255,7 +255,7 @@ public class GVector3 {
 	 * @param v ,it is the "another vector";
 	 * @return the projection
 	 */
-	public float getProjection(GVector3 v)
+	public double getProjection(GVector3 v)
 	{
 		if( v.isEmpty() ) return 0f;
 		return Math.abs(v.normalize().dot(this));

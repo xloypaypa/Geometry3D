@@ -41,7 +41,7 @@ public class GStraight3 extends GLineType3 {
 	}
 
 	@Override
-	public float distance(GType obj) {
+	public double distance(GType obj) {
 		if (obj.getClass().equals(GPoint3.class)) return this.distance((GPoint3)obj);
 		if (obj.getClass().equals(GStraight3.class)) return this.distance((GStraight3)obj);
 		else return obj.distance(this);
@@ -61,7 +61,7 @@ public class GStraight3 extends GLineType3 {
 		else return obj.crossResults(this);
 	}
 	
-	protected float distance(GPoint3 p){
+	protected double distance(GPoint3 p){
 		GVector3 v1,v2;
 		v1=new GVector3(p, p1);
 		v2=new GVector3(p, p2);
@@ -87,7 +87,7 @@ public class GStraight3 extends GLineType3 {
 		}
 	}
 	
-	protected float distance(GStraight3 s){
+	protected double distance(GStraight3 s){
 		if (this.cross(s)) return 0f;
 		if (this.isParallel(s)) return s.distance(p1);
 		GVector3 v1 = this.getVector();
@@ -118,22 +118,30 @@ public class GStraight3 extends GLineType3 {
 		}else if (!this.cross(s)) {
 			return null;
 		}else{
-			float dis=p1.distance(s);
-			GType[] ans=new GType[1];
-			ans[0]=p1.move(this.getVector().changeLength(dis));
-			if (ans[0].cross(s)&&ans[0].cross(this)){
-				return ans;
-			}else{
-				GVector3 v=this.getVector().reverse();
-				v.changeLength(dis);
-				ans[0]=p1.move(v);
-				return ans;
+			GVector3 v1,v2;
+			double t=0;
+			v1=s.getVector();
+			v2=this.getVector();
+			if (GEps.sign(v1.getX()*v2.getY()-v1.getY()*v2.getX())!=0){
+				t=solve(v1.getX(),v1.getY(),v2.getX(),v2.getY(), s.p1.getX(), s.p1.getY(), p1.getX(), p1.getY());
+			}else if (GEps.sign(v1.getY()*v2.getZ()-v1.getZ()*v2.getY())!=0){
+				t=solve(v1.getY(),v1.getZ(),v2.getY(),v2.getZ(), s.p1.getY(), s.p1.getZ(), p1.getY(), p1.getZ());
+			}else if (GEps.sign(v1.getZ()*v2.getX()-v1.getX()*v2.getZ())!=0){
+				t=solve(v1.getZ(),v1.getX(),v2.getZ(),v2.getX(), s.p1.getZ(), s.p1.getX(), p1.getZ(), p1.getX());
 			}
+			
+			GType[] ans=new GType[1];
+			GPoint3 p=new GPoint3(p1);
+			p=p.move(v2.mul(t));
+			ans[0]=p;
+			return ans;
 		}
 	}
+	
+	private double solve(double a1,double b1,double a2,double b2,double x1,double y1,double x2,double y2){
+		return (a1*y1-b1*x1+b1*x2-a1*y2)/(a1*b2-b1*a2);
+	}
 
-	
-	
 	@Override
 	public GVector3 getVector() {
 		return new GVector3(p1, p2);

@@ -32,7 +32,7 @@ public class GSegment3 extends GLineType3 {
 		p2=new GPoint3(s.p2);
 	}
 	
-	public float length(){
+	public double length(){
 		return p1.distance(p2);
 	}
 	
@@ -50,7 +50,7 @@ public class GSegment3 extends GLineType3 {
 	}
 
 	@Override
-	public float distance(GType obj) {
+	public double distance(GType obj) {
 		if (obj.getClass().equals(GPoint3.class)) return this.distance((GPoint3)obj);
 		if (obj.getClass().equals(GStraight3.class)) return this.distance((GStraight3)obj);
 		if (obj.getClass().equals(GSegment3.class)) return this.distance((GSegment3)obj);
@@ -73,8 +73,8 @@ public class GSegment3 extends GLineType3 {
 		else return obj.crossResults(this);
 	}
 	
-	protected float distance(GPoint3 p){
-		float d1,d2,d3,h,len1,len2;
+	protected double distance(GPoint3 p){
+		double d1,d2,d3,h,len1,len2;
 		d1=p.distance(this);
 		d2=p.distance(this);
 		d3=this.length();
@@ -85,8 +85,8 @@ public class GSegment3 extends GLineType3 {
 			e.printStackTrace();
 		}
 		h=p.distance(s);
-		len1=(float) Math.sqrt(d1*d1-h*h);
-		len2=(float) Math.sqrt(d2*d2-h*h);
+		len1=(double) Math.sqrt(d1*d1-h*h);
+		len2=(double) Math.sqrt(d2*d2-h*h);
 		if (GEps.sign(d3-len1-len2)==-1){
 			return Math.min(d1, d2);
 		}
@@ -111,7 +111,7 @@ public class GSegment3 extends GLineType3 {
 		}
 	}
 	
-	protected float distance(GSegment3 s){
+	protected double distance(GSegment3 s){
 		return 0;
 	}
 	
@@ -167,7 +167,7 @@ public class GSegment3 extends GLineType3 {
 		}
 	}
 	
-	protected float distance(GStraight3 s){
+	protected double distance(GStraight3 s){
 		return 0;
 	}
 	

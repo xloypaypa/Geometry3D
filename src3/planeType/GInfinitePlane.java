@@ -11,7 +11,7 @@ public class GInfinitePlane extends GPlaneType3 {
 	}
 
 	@Override
-	public float distance(GType obj) {
+	public double distance(GType obj) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

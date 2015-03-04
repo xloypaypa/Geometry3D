@@ -10,7 +10,7 @@ import mathException.GMatrixSubscriptException;
  */
 public class GMatrix {
 	
-	protected float[] mat;		//matrix
+	protected double[] mat;		//matrix
 
 	protected int n;			//row			
 	
@@ -18,7 +18,7 @@ public class GMatrix {
 	
 	
 	public GMatrix()  {
-		mat = new float[0];
+		mat = new double[0];
 		n = m = 0;
 	}
 	/**
@@ -37,7 +37,7 @@ public class GMatrix {
 		}
 		this.n = row;
 		this.m = column;
-		this.mat = new float[row*column];
+		this.mat = new double[row*column];
 	}
 	
 	
@@ -49,7 +49,7 @@ public class GMatrix {
 	public GMatrix( GMatrix mat ) {
 		this.n = mat.getRowNumber();
 		this.m = mat.getColumnNumber();
-		this.mat = new float[n*m];
+		this.mat = new double[n*m];
 		for (int i=0;i<n;i++){
 			for (int j=0;j<m;j++){
 				safeSet(i, j, mat.safeGet(i, j));
@@ -83,7 +83,7 @@ public class GMatrix {
 	 * @return
 	 * the matirx;
 	 */
-	public float[] getMatrix() {
+	public double[] getMatrix() {
 		return mat;
 	}
 	
@@ -100,7 +100,7 @@ public class GMatrix {
 	 * the number at row rows and the column columns in the matrix;
 	 * @throws GMatrixSubscriptException 
 	 */
-	public float get(int row,int column) throws GMatrixSubscriptException {
+	public double get(int row,int column) throws GMatrixSubscriptException {
 		if( row < 0 || row >= n || column < 0 ||column >= m ) {
 			throw new GMatrixSubscriptException();
 		}
@@ -120,7 +120,7 @@ public class GMatrix {
 	 * the number need set in the matrix;
 	 * @throws GMatrixSubscriptException 
 	 */
-	public void set(int row,int column,float f) throws GMatrixSubscriptException {
+	public void set(int row,int column,double f) throws GMatrixSubscriptException {
 		if( row < 0 || row >= n || column < 0 ||column >= m ) {
 			throw new GMatrixSubscriptException();
 		}
@@ -142,7 +142,7 @@ public class GMatrix {
 		GMatrix reMat = new GMatrix( n , mat.getColumnNumber() );
 		for( int  i = 0 ; i < n ; i ++) {
 			for(int j = 0 ; j < mat.getColumnNumber() ; j ++) {
-				float s = 0;
+				double s = 0;
 				for(int k = 0; k < m ; k ++) {
 					s += safeGet( i , k ) * mat.safeGet( k , j );
 				}
@@ -154,12 +154,12 @@ public class GMatrix {
 	}
 	/**
 	 * get the multiplication of this matrix and k;
-	 * @param k is a float
+	 * @param k is a double
 	 * @return		
 	 * the multiplication;
 	 * @throws GMatrixSubscriptException 
 	 */
-	public GMatrix multiplication ( float k ) {
+	public GMatrix multiplication ( double k ) {
 		try {
 			GMatrix reMat = new GMatrix( n , m );
 			for( int  i = 0 ; i < n ; i ++) {
@@ -194,13 +194,13 @@ public class GMatrix {
 		return reMat;
 	}
 	/**
-	 * get the addition of this matrix and a float;
-	 * @param f the float
+	 * get the addition of this matrix and a double;
+	 * @param f the double
 	 * @return
 	 * the result of this matrix + f;
 	 * @throws GMatrixSubscriptException 
 	 */
-	public GMatrix addition ( float f )  {
+	public GMatrix addition ( double f )  {
 		GMatrix reMat = new GMatrix();
 		try {
 			reMat = new GMatrix( n , m );
@@ -237,13 +237,13 @@ public class GMatrix {
 		return reMat;
 	}
 	/**
-	 * get the subtraction of this matrix and a float;
-	 * @param f the float
+	 * get the subtraction of this matrix and a double;
+	 * @param f the double
 	 * @return
 	 * the result of this matrix - f;
 	 * @throws GMatrixSubscriptException 
 	 */
-	public GMatrix subtraction ( float f )  {
+	public GMatrix subtraction ( double f )  {
 		GMatrix reMat = new GMatrix();
 		try {
 			reMat = new GMatrix( n , m );
@@ -310,7 +310,7 @@ public class GMatrix {
 		}
 		
 		GMatrix temp=new GMatrix(this);
-		temp.m*=2; temp.mat=new float[n*2*m];
+		temp.m*=2; temp.mat=new double[n*2*m];
 		for (int i=0;i<n;i++){
 			for (int j=0;j<m;j++){
 				temp.safeSet(i, j, this.safeGet(i, j));
@@ -341,7 +341,7 @@ public class GMatrix {
 	public GMatrix gaussElimination() {
 		GMatrix ans=new GMatrix(this);
 		for (int i=0;i<Math.min(n, m);i++){
-			float max = findPivotElement(ans, i);
+			double max = findPivotElement(ans, i);
 			if (GEps.sign(max)==0) continue;
 			
 			doElimination(ans, i);
@@ -356,7 +356,7 @@ public class GMatrix {
 		for (int i=Math.min(n, m)-1;i>=0;i--){
 			if (GEps.sign(ans.safeGet(i, i))==0) continue;
 			for (int j=i-1;j>=0;j--){
-				float times=ans.safeGet(j, i)/ans.safeGet(i, i);
+				double times=ans.safeGet(j, i)/ans.safeGet(i, i);
 				for (int k=i;k<m;k++){
 					ans.safeSet(j, k, ans.safeGet(j, k)-ans.safeGet(i, k)*times);
 				}
@@ -372,7 +372,7 @@ public class GMatrix {
 		ans.safeSet(i, i, 1);
 		
 		for (int j=i+1;j<n;j++){
-			float times=ans.safeGet(j, i);
+			double times=ans.safeGet(j, i);
 			for (int k=i;k<m;k++){
 				ans.safeSet(j, k, ans.safeGet(j, k)-ans.safeGet(i, k)*times);
 			}
@@ -380,8 +380,8 @@ public class GMatrix {
 	}
 
 
-	private float findPivotElement(GMatrix ans, int i) {
-		float max=ans.safeGet(i, i);
+	private double findPivotElement(GMatrix ans, int i) {
+		double max=ans.safeGet(i, i);
 		int mainPos=i;
 		for (int j=i+1;j<n;j++){
 			max=Math.max(max, ans.safeGet(j, i));
@@ -389,7 +389,7 @@ public class GMatrix {
 		}
 		if (mainPos!=i){
 			for (int j=i;j<m;j++){
-				float temp=ans.safeGet(i, j);
+				double temp=ans.safeGet(i, j);
 				ans.safeSet(i, j, ans.safeGet(mainPos, j));
 				ans.safeSet(mainPos, j, temp);
 			}
@@ -397,10 +397,10 @@ public class GMatrix {
 		return max;
 	}
 	
-	private float safeGet(int row, int column){
+	private double safeGet(int row, int column){
 		return mat[row * m +column];
 	}
-	private void safeSet(int row,int column, float value){
+	private void safeSet(int row,int column, double value){
 		mat[row * m +column] = value;
 	}
 }
