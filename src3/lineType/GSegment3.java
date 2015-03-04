@@ -10,8 +10,6 @@ import lineType.GStraight3;
 
 public class GSegment3 extends GLineType3 {
 	
-	GPoint3 p1,p2;
-	
 	public GSegment3(){
 		p1=new GPoint3(0, 0, 0);
 		p2=new GPoint3(0, 0, 1);
