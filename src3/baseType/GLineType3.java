@@ -39,8 +39,6 @@ public abstract class GLineType3 implements GType {
 			}
 		}
  		
- 		GVector3 v3 = s1.p1.sub(s2.p1);
- 		
 		if (this.isParallel(s)) {
 			GVector3 xv2 = v1.product( v1 );
 			try {

@@ -122,13 +122,73 @@ public class Vector3Test {
 	}
 	
 	@Test
+	public void lengthTest2(){
+		GVector3 v1=new GVector3(1,1,0);
+		GVector3 v2=new GVector3((float)Math.sqrt(2),(float)Math.sqrt(2),0);
+		v1=v1.changeLength(2);
+		Assert.assertTrue(v1.equal(v2));
+		
+		v1=new GVector3(0, 0, 0);
+		Assert.assertTrue(v1.isEmpty());
+		
+		v1=new GVector3(1,1,0);
+		v2=new GVector3((float)Math.sqrt(2)/2,(float)Math.sqrt(2)/2,0);
+		v1=v1.normalize();
+		Assert.assertTrue(v1.equal(v2));
+		v1=v1.changeLength(2);
+		Assert.assertFalse(v1.equal(v2));
+	}
+	
+	@Test
 	public void directionTest1(){
 		GVector3 v1=new GVector3(1,2,3);
 		GVector3 v2=new GVector3(2,4,6);
 		Assert.assertTrue(v1.isSameDirection(v2));
 		Assert.assertTrue(v1.isReverse(v2.reverse()));
+		Assert.assertFalse(v1.isReverse(v2));
+		Assert.assertFalse(v1.isSameDirection(v2.reverse()));
 		v2=new GVector3(1,1,1);
 		Assert.assertFalse(v1.isReverse(v2));
+	}
+	
+	@Test
+	public void directionTest2(){
+		GVector3 v1=new GVector3(1,2,3);
+		GVector3 v2=new GVector3(2,4,7);
+		Assert.assertFalse(v1.isSameDirection(v2));
+		Assert.assertFalse(v1.isReverse(v2.reverse()));
+	}
+	
+	@Test
+	public void floatTest1(){
+		GVector3 v1=new GVector3(1,2,3);
+		GVector3 v2=new GVector3(2,3,4);
+		v1=v1.add(1);
+		Assert.assertTrue(v1.equal(v2));
+		
+		v1=new GVector3(1,2,3);
+		v2=new GVector3(2,3,4);
+		v2=v2.sub(1);
+		Assert.assertTrue(v1.equal(v2));
+		
+		v1=new GVector3(1,2,3);
+		v2=new GVector3(2,4,6);
+		v1=v1.mul(2);
+		Assert.assertTrue(v1.equal(v2));
+	}
+	
+	@Test
+	public void angleTest1(){
+		GVector3 v1=new GVector3(1,0,0);
+		GVector3 v2=new GVector3(1,1,0);
+		Assert.assertEquals(Math.acos(-1)/4, v1.getAngle(v2), GEps.eps);
+	}
+	
+	@Test
+	public void projectionTest1(){
+		GVector3 v1=new GVector3(1,0,0);
+		GVector3 v2=new GVector3(1,1,0);
+		Assert.assertEquals(1, v2.getProjection(v1), GEps.eps);
 	}
 	
 }
